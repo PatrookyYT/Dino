@@ -152,7 +152,7 @@
             while (opMode.opModeIsActive() && BackLeft.isBusy() && BackRight.isBusy() && FrontLeft.isBusy() && FrontRight.isBusy())
             {
                 double avgPos = (Math.abs(BackLeft.getCurrentPosition() + BackRight.getCurrentPosition() + FrontLeft.getCurrentPosition() + FrontRight.getCurrentPosition()));
-
+//e
 
 
                 if(!threshold2Passed)

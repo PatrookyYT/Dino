@@ -95,7 +95,7 @@ public class IntoTheDeepAuto1 extends LinearOpMode {
             Functions.drive(this, hardwareMap, telemetry, -10, 10, 0.6, 10, -10, testMode); //Strafe for 2
 
             //Go forward
-            Functions.drive(this, hardwareMap, telemetry, 42, 42,  0.65, 42, 42,  testMode);
+            Functions.drive(this, hardwareMap, telemetry, 50, 50,  0.65, 50, 50,  testMode);
 
             //go back
             Functions.drive(this, hardwareMap, telemetry, -2, -2,  0.6, -2, -2,  testMode);

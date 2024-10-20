@@ -126,7 +126,12 @@ public class TestAuto2 extends LinearOpMode {
 
 
             // Drive to pixel
+
+            Functions.driveDirect(this, hardwareMap, telemetry, 39, 0.2, testMode);
+
+
             //Fix Strafe
+            /*
             Functions.drive(this, hardwareMap, telemetry, -0.5, 0.5, 0.5, 0.5, -0.5, testMode);
             Functions.pause(0.25);
 

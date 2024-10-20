@@ -64,13 +64,11 @@
             FrontLeft.setPower(Speed);
             FrontRight.setPower(Speed);
 
-            /*
             DcMotor[] WHEELS = new DcMotor[4];
             WHEELS[0] = BackLeft;
             WHEELS[1] = BackRight;
             WHEELS[2] = FrontLeft;
             WHEELS[3] = FrontRight;
-            */
 
             while (opMode.opModeIsActive() && BackLeft.isBusy() && BackRight.isBusy() && FrontLeft.isBusy() && FrontRight.isBusy())
             {
@@ -136,13 +134,11 @@
             FrontLeft.setPower(target_Speed);
             FrontRight.setPower(target_Speed);
 
-            /*
             DcMotor[] WHEELS = new DcMotor[4];
             WHEELS[0] = BackLeft;
             WHEELS[1] = BackRight;
             WHEELS[2] = FrontLeft;
             WHEELS[3] = FrontRight;
-            */
 
             boolean threshold1Passed = false;
             boolean threshold2Passed = false;
@@ -155,7 +151,9 @@
 
             while (opMode.opModeIsActive() && BackLeft.isBusy() && BackRight.isBusy() && FrontLeft.isBusy() && FrontRight.isBusy())
             {
-                double avgPos = ((Math.abs(BackLeft.getCurrentPosition()) + Math.abs(BackRight.getCurrentPosition()) + Math.abs(FrontLeft.getCurrentPosition()) + Math.abs(FrontRight.getCurrentPosition()))/4f);
+                double avgPos = (Math.abs(BackLeft.getCurrentPosition() + BackRight.getCurrentPosition() + FrontLeft.getCurrentPosition() + FrontRight.getCurrentPosition()));
+
+
 
                 if(!threshold2Passed)
                 {
@@ -202,7 +200,7 @@
                 telemetry.addData("bk-right-endBusy", BackRight.isBusy());
                 telemetry.addData("fwd-left-endBusy", FrontLeft.isBusy());
                 telemetry.addData("fwd-right-endBusy", FrontRight.isBusy());
-                telemetry.addData("%", (avgPos/wheel_target));
+
                 telemetry.addData("Threshold 1 Passed", threshold1Passed);
                 telemetry.addData("Threshold 2 Passed", threshold2Passed);
                 telemetry.update();

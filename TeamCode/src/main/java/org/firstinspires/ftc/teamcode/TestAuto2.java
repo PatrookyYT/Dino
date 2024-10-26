@@ -42,7 +42,7 @@ public class TestAuto2 extends LinearOpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     public ServoController ControlHub_ServoController;
-    public ServoController ExpansionHub2_ServoController;
+    //public ServoController ExpansionHub2_ServoController;
 
 
     @Override
@@ -56,16 +56,14 @@ public class TestAuto2 extends LinearOpMode {
         //Replace the device name (ex frontLeft) with the NAME OF THE
         //MOTORS DEFINED IN THE DRIVER HUB
         ControlHub_ServoController = hardwareMap.get(ServoController.class, "Control Hub");
-        ExpansionHub2_ServoController = hardwareMap.get(ServoController.class, "Expansion Hub 2");
+        //ExpansionHub2_ServoController = hardwareMap.get(ServoController.class, "Expansion Hub 2");
 
         // Wait for the game to start (driver presses PLAY)
         boolean Start = false;
         boolean DriveTest = false;
-        boolean CameraTest = false;
-        boolean DistanceTest = false;
         boolean testMode = true;
-        boolean armTest = true;
         boolean turnTest = false;
+        boolean armTest = true;
 
         while (Start = false) {
             if (gamepad1.dpad_down)
@@ -78,26 +76,9 @@ public class TestAuto2 extends LinearOpMode {
                 DriveTest = true;
             }
 
-            if (gamepad1.b)
-            {
-                CameraTest = true;
-            }
-
-            if (gamepad1.y)
-            {
-                DistanceTest = true;
-            }
-
-            if (gamepad1.a)
-            {
-                armTest = true;
-            }
 
             telemetry.addData("Running == ", Running);
             telemetry.addData("Drive Test == ", DriveTest);
-            telemetry.addData("Camera Test == ", CameraTest);
-            telemetry.addData("Distance Test == ", DistanceTest);
-            telemetry.addData("Arm Test == ", armTest);
             telemetry.addData("Turn Test == ", turnTest);
 
             telemetry.update();
@@ -113,124 +94,15 @@ public class TestAuto2 extends LinearOpMode {
         if(DriveTest == true) {
             // 16in = 1000
 
+            Functions.driveDirect(this, hardwareMap, telemetry, 80, 0.65, testMode);
+            Functions.pause(2);
+            Functions.driveDirect(this, hardwareMap, telemetry, -80, 0.65, testMode);
+            Functions.pause(2);
 
-            ///
-            //NOTE TO KIRO M/ANYONE PROGRAMMING!!!
-            //THE AUTO CODE HAS BEEN MOVED TO IntoTheDeepAuto1
-            //DO NOT USE THIS FOR COMPETITION!!!
-            ///
-
-
-
-
-
-
-            // Drive to pixel
-
-            Functions.driveDirect(this, hardwareMap, telemetry, 39, 0.2, testMode);
-
-
-            //Fix Strafe
-            /*
-            Functions.drive(this, hardwareMap, telemetry, -0.5, 0.5, 0.5, 0.5, -0.5, testMode);
-            Functions.pause(0.25);
-
-            //Drive forward
-            Functions.drive(this, hardwareMap, telemetry, 39, 39, 0.5, 39, 39,  testMode);
-            Functions.drive(this, hardwareMap, telemetry, 1, 1, 0.25, 1, 1, testMode);
-            Functions.pause(0.25);
-
-            //go back
-            Functions.drive(this, hardwareMap, telemetry, -16, -18, 0.5, -16, -16,  testMode);
-            Functions.pause(0.25);
-
-            //strafe to 1
-            Functions.drive(this, hardwareMap, telemetry, -55, 55, 0.5, 55, -55, testMode);
-            Functions.pause(0.25);
-
-            //drive forward
-            Functions.drive(this, hardwareMap, telemetry, 12, 12, 0.5, 12, 12, testMode);
-            Functions.pause(0.25);
-
-            //Turn
-            Functions.turn(this, hardwareMap, telemetry, "Left", 0.5, testMode);
-            Functions.pause(0.25);
-
-            //go Go front
-            Functions.drive(this, hardwareMap, telemetry, 48, 48, 0.5, 48, 48, testMode);
-            Functions.pause(0.25);
-
-            //Strafe right
-            Functions.drive(this, hardwareMap, telemetry, -6, 6, 0.5, 6, -6, testMode);
-            Functions.pause(0.25);
-
-            //Functions.drive(this, hardwareMap, telemetry, -1, 1, 0.5, 1, -1, testMode);
-            //Shimmy
-            //Functions.drive(this, hardwareMap, telemetry, 1, -1, 0.5, -1, 1, testMode);
-            //Functions.pause(0.25);
-
-            //Go back to position
-            Functions.drive(this, hardwareMap, telemetry, -12, -12,  0.5, -12, -12,  testMode);
-            Functions.pause(0.25);
-
-            //Strafe right
-            Functions.drive(this, hardwareMap, telemetry, 6, -6, 0.5, -6, 6, testMode);
-
-            //Go back to position
-            Functions.drive(this, hardwareMap, telemetry, -34, -34,  0.5, -34, -34,  testMode);
-            Functions.pause(0.25);
-
-            //Strafe for 2
-            Functions.drive(this, hardwareMap, telemetry, -12.5, 12.5, 0.5, 12.5, -12.5, testMode); //Strafe for 2
-            Functions.pause(0.25);
-
-            Functions.drive(this, hardwareMap, telemetry, 43, 43,  0.5, 43, 43,  testMode);
-            Functions.pause(0.25);
-
-            //Go back
-            Functions.drive(this, hardwareMap, telemetry, -43, -43,  0.5, -43, -43,  testMode);
-
-            //Drift to the side for 3
-            Functions.drive(this, hardwareMap, telemetry, -7, 7, 0.5, 7, -7, testMode); //Strafe for 2
-            Functions.pause(0.25);
-
-            //Go forward
-            Functions.drive(this, hardwareMap, telemetry, 40, 40,  0.5, 40, 40,  testMode);
-            Functions.pause(0.25);
-
-            //go back
-            Functions.drive(this, hardwareMap, telemetry, -40, -40,  0.5, -40, -40,  testMode);
-            Functions.pause(0.25);
-
-
-            //Functions.drive(this, hardwareMap, telemetry, -430, 430, 0.5, 430, -430, testMode);
-
-            /*
-            Functions.drive(this, hardwareMap, telemetry, 2000, 2000, 0.5, 2000, 2000, testMode);
-
-            Functions.turn(this, hardwareMap, telemetry, "Right", 0.5, testMode);
-            Functions.drive(this, hardwareMap, telemetry, 700, 700, 0.5, 700, 700, testMode);
-            Functions.turn(this, hardwareMap, telemetry, "Left", 0.5, testMode);
-            Functions.drive(this, hardwareMap, telemetry, 700, 700, 0.5, 700, 700, testMode);
-
-            Functions.drive(this, hardwareMap, telemetry, -700, -700, 0.5, -700, -700, testMode);
-            Functions.turn(this, hardwareMap, telemetry, "Right", 0.5, testMode);
-            Functions.drive(this, hardwareMap, telemetry, -700, -700, 0.5, -700, -700, testMode);
-            Functions.turn(this, hardwareMap, telemetry, "Left", 0.5, testMode);
-
-            Functions.drive(this, hardwareMap, telemetry, -2000, -2000, 0.5, -2000, -2000, testMode);
-        */
-        }
-
-
-        if(armTest == true)
-        {
-            //Functions.slideUp(this, hardwareMap, telemetry, ControlHub_ServoController, ExpansionHub2_ServoController);
-            //Functions.drive(this, hardwareMap, telemetry, 3000, 3000, 0.1, 3000, 3000, testMode);
-            //Functions.pause(4);
-            //Functions.slideStop(this, hardwareMap, telemetry, ControlHub_ServoController, ExpansionHub2_ServoController);
-            //Functions.dropYellow(this, hardwareMap, telemetry, "Up", 0.2, 1.5, ControlHub_ServoController, ExpansionHub2_ServoController);
-            //Functions.pause(1);
+            Functions.drive(this, hardwareMap, telemetry, 80, 80, 0.65, 80, 80, testMode);
+            Functions.pause(2);
+            Functions.drive(this, hardwareMap, telemetry, -80, -80, 0.65, -80, -80, testMode);
+            Functions.pause(2);
 
         }
 
@@ -248,29 +120,10 @@ public class TestAuto2 extends LinearOpMode {
 
         }
 
-        /*
-        Drone.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-        Drone.setTargetPosition(6000);
-        telemetry.addData("Drone Start", Drone.getCurrentPosition());
-        telemetry.update();
-
-        Drone.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-        Drone.setPower(0.01);
-
-        while (opModeIsActive() && Drone.isBusy())
+        if(armTest)
         {
-            telemetry.addData("Drone ", Drone.getCurrentPosition());
-            telemetry.addData("Drone-Busy ", Drone.isBusy());
-            telemetry.update();
-            idle();
+            Functions.arm(this, hardwareMap, telemetry, 45, 0.2, testMode);
         }
-
-        Drone.setPower(0);
-        */
-
-
     }
 
 

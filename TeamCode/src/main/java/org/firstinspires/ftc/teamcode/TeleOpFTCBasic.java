@@ -11,6 +11,7 @@ public class TeleOpFTCBasic extends LinearOpMode {
     private DcMotor BackRight;
     private DcMotor FrontLeft;
     private DcMotor FrontRight;
+    private DcMotor ArmMotor;
 
     /**
      * This function is executed when this OpMode is selected from the Driver Station.
@@ -18,20 +19,30 @@ public class TeleOpFTCBasic extends LinearOpMode {
     @Override
     public void runOpMode() {
         double D_Speed;
-        float vertical_2;
-        float vertical;
-        float horizontal;
+        float verticalGp1_left;
+        float horizontalGp1_left;
+        float verticalGp1_right;
+        float horizontalGp1_right;
+
+        float verticalGp2_left;
+        float horizontalGp2_left;
+        float verticalGp2_right;
+        float horizontalGp2_right;
         float pivot;
+
+        boolean debugInfo = true;
 
         BackLeft = hardwareMap.get(DcMotor.class, "BackLeft");
         BackRight = hardwareMap.get(DcMotor.class, "BackRight");
         FrontLeft = hardwareMap.get(DcMotor.class, "FrontLeft");
         FrontRight = hardwareMap.get(DcMotor.class, "FrontRight");
+        ArmMotor = hardwareMap.get(DcMotor.class, "ArmMotor");
 
         waitForStart();
         if (opModeIsActive()) {
             BackLeft.setDirection(DcMotor.Direction.REVERSE);
             BackRight.setDirection(DcMotor.Direction.REVERSE);
+            ArmMotor.setDirection(DcMotor.Direction.REVERSE);
             while (opModeIsActive()) {
                 telemetry.update();
                 //
@@ -41,15 +52,35 @@ public class TeleOpFTCBasic extends LinearOpMode {
                 //
                 // Used for arm movement
                 //
-                vertical_2 = gamepad2.right_stick_y;
+                verticalGp1_left = gamepad1.left_stick_y;
                 //
                 // Used for wheel movement
                 //
-                vertical = -gamepad1.left_stick_x;
+                horizontalGp1_left = -gamepad1.left_stick_x;
                 //
                 // Used for wheel movement
                 //
-                horizontal = gamepad1.left_stick_y;
+                verticalGp1_right = gamepad1.right_stick_y;
+                //
+                // Used for wheel movement
+                //
+                horizontalGp1_right = -gamepad1.right_stick_x;
+                //
+                // Used for wheel movement
+                //
+                verticalGp2_left = gamepad2.left_stick_y;
+                //
+                // Used for wheel movement
+                //
+                horizontalGp2_left = -gamepad2.left_stick_x;
+                //
+                // Used for wheel movement
+                //
+                verticalGp2_right = gamepad2.right_stick_y;
+                //
+                // Used for wheel movement
+                //
+                horizontalGp2_right = -gamepad2.right_stick_x;
                 //
                 // Used for wheel movement
                 //
@@ -59,10 +90,14 @@ public class TeleOpFTCBasic extends LinearOpMode {
                 //
                 // Used for Mecanum wheel movement
                 //
-                BackLeft.setPower(vertical - horizontal);
-                BackRight.setPower(vertical + horizontal);
-                FrontLeft.setPower(vertical + horizontal);
-                FrontRight.setPower(vertical - horizontal);
+                BackLeft.setPower(horizontalGp1_left - verticalGp1_left);
+                BackRight.setPower(horizontalGp1_left + verticalGp1_left);
+                FrontLeft.setPower(horizontalGp1_left + verticalGp1_left);
+                FrontRight.setPower(horizontalGp1_left - verticalGp1_left);
+
+                ArmMotor.setPower(verticalGp1_right);
+
+
                 if (gamepad1.dpad_left) {
                     // Turns the robot left (Hopefully)
                     //
@@ -102,9 +137,9 @@ public class TeleOpFTCBasic extends LinearOpMode {
                 } else if (gamepad1.a) {
                 } else if (gamepad2.y) {
                 } else if (gamepad1.left_bumper) {
-                } else if (vertical_2 < 0) {
+                } else if (verticalGp2_right < 0) {
                 } else if (false) {
-                } else if (vertical_2 > 0) {
+                } else if (verticalGp2_right > 0) {
                     // Gamepad 2 commands end
                 } else if (gamepad2.x) {
                 } else if (gamepad2.b) {
@@ -117,6 +152,45 @@ public class TeleOpFTCBasic extends LinearOpMode {
                     BackRight.setPower(0);
                     FrontLeft.setPower(0);
                     FrontRight.setPower(0);
+                }
+
+
+
+                if(debugInfo)
+                {
+                    telemetry.addLine("Wheels:");
+                    telemetry.addData("BackLeft", BackLeft.getPower());
+                    telemetry.addData("BackRight", BackRight.getPower());
+                    telemetry.addData("FrontLeft", FrontLeft.getPower());
+                    telemetry.addData("FrontRight", FrontRight.getPower());
+
+                    telemetry.addLine("\nGamePad1:");
+                    telemetry.addData("VerticalGp1_Left", verticalGp1_left);
+                    telemetry.addData("HorizontalGp1_left", horizontalGp1_left);
+                    telemetry.addData("VerticalGp1_right", verticalGp1_right);
+                    telemetry.addData("HorizontalGp1_right", horizontalGp1_right);
+                    telemetry.addData("Dpad_up", gamepad1.dpad_up);
+                    telemetry.addData("Dpad_down", gamepad1.dpad_down);
+                    telemetry.addData("Dpad_left", gamepad1.dpad_left);
+                    telemetry.addData("Dpad_right", gamepad1.dpad_right);
+                    telemetry.addData("A", gamepad1.a);
+                    telemetry.addData("X", gamepad1.x);
+                    telemetry.addData("Y", gamepad1.y);
+                    telemetry.addData("B", gamepad1.b);
+
+                    telemetry.addLine("\nGamePad2:");
+                    telemetry.addData("VerticalGp2_Left", verticalGp2_left);
+                    telemetry.addData("HorizontalGp2_left", horizontalGp2_left);
+                    telemetry.addData("VerticalGp2_right", verticalGp2_right);
+                    telemetry.addData("HorizontalGp2_right", horizontalGp2_right);
+                    telemetry.addData("Dpad_up", gamepad2.dpad_up);
+                    telemetry.addData("Dpad_down", gamepad2.dpad_down);
+                    telemetry.addData("Dpad_left", gamepad2.dpad_left);
+                    telemetry.addData("Dpad_right", gamepad2.dpad_right);
+                    telemetry.addData("A", gamepad2.a);
+                    telemetry.addData("X", gamepad2.x);
+                    telemetry.addData("Y", gamepad2.y);
+                    telemetry.addData("B", gamepad2.b);
                 }
             }
         }

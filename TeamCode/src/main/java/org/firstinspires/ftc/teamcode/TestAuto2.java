@@ -122,7 +122,8 @@ public class TestAuto2 extends LinearOpMode {
 
         if(armTest)
         {
-            Functions.arm(this, hardwareMap, telemetry, 45, 0.2, testMode);
+            Functions.arm(this, hardwareMap, telemetry, 165, 0.65, testMode);
+            Functions.arm(this, hardwareMap, telemetry, -165, 0.65, testMode);
         }
     }
 

@@ -278,6 +278,7 @@
             }
 
             ArmMotor.setPower(0);
+            return;
         }
 
 
@@ -358,29 +359,21 @@
         public static void dropYellow(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, String Direction, double speed, double time, com.qualcomm.robotcore.hardware.ServoController ControlHub_ServoController, com.qualcomm.robotcore.hardware.ServoController ExpansionHub2_ServoController) {
 
             //Define CRServos
-            CRServo BackDropControl = null;
-            //CRServo ExpandControl = null;
+            CRServo FrontArmServo = null;
 
             //Set servos
-            BackDropControl = hardwareMap.get(CRServo.class, "BackDropControl");
-            //ExpandControl = hardwareMap.get(CRServo.class, "ExpandControl");
+            FrontArmServo = hardwareMap.get(CRServo.class, "FrontArmServo");
 
             //Disable pwm
             ControlHub_ServoController.pwmDisable();
-            //ExpansionHub2_ServoController.pwmDisable();
-
-            //Slide to the Up
-            //ExpandControl.setPower(0.7);
-            //Functions.pause(3.5);
 
             // Drop Pixel
-
             telemetry.addData("Currently going: ", "Up");
             telemetry.update();
 
-            BackDropControl.setPower(0.7);
+            FrontArmServo.setPower(0.7);
             Functions.pause(1.5);
-            BackDropControl.setPower(0);
+            FrontArmServo.setPower(0);
 
             // Wait
             Functions.pause(0.6);
@@ -390,17 +383,14 @@
             telemetry.update();
 
             // Bring down Dropigimigigy6
-            BackDropControl.setPower(-0.7);
+            FrontArmServo.setPower(-0.7);
             Functions.pause(1);
-            BackDropControl.setPower(0);
-
-            //Slide to the down
-            //ExpandControl.setPower(0);
+            FrontArmServo.setPower(0);
 
             telemetry.addData("Currently going: ", "to");
             telemetry.update();
         }
-
+/*
         public static void slideUp(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, com.qualcomm.robotcore.hardware.ServoController ControlHub_ServoController, com.qualcomm.robotcore.hardware.ServoController ExpansionHub2_ServoController) {
 /*
 

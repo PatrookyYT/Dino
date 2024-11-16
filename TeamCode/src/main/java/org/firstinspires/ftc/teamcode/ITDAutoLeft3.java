@@ -6,7 +6,7 @@
     import com.qualcomm.robotcore.util.ElapsedTime;
 
     @Autonomous(name = "IntoTheDeepAuto3SimplePark")
-    public class IntoTheDeepAuto3 extends LinearOpMode {
+    public class ITDAutoLeft3 extends LinearOpMode {
         // Declare OpMode members.
         private ElapsedTime runtime = new ElapsedTime();
         public ServoController ControlHub_ServoController;

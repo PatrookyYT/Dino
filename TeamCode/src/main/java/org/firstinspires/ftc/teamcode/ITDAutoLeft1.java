@@ -5,8 +5,8 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ServoController;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
-@Autonomous(name = "IntoTheDeepAuto1Wall")
-public class IntoTheDeepAuto1 extends LinearOpMode {
+@Autonomous(name = "ITD AutoLeft1 (Wall)")
+public class ITDAutoLeft1 extends LinearOpMode {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     public ServoController ControlHub_ServoController;

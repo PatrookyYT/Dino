@@ -63,7 +63,7 @@ public class TestAuto2 extends LinearOpMode {
         boolean DriveTest = false;
         boolean testMode = true;
         boolean turnTest = false;
-        boolean armTest = true;
+        boolean viperSlideTest = true;
 
         while (Start = false) {
             if (gamepad1.dpad_down)
@@ -120,10 +120,10 @@ public class TestAuto2 extends LinearOpMode {
 
         }
 
-        if(armTest)
+        if(viperSlideTest)
         {
-            Functions.arm(this, hardwareMap, telemetry, 165, 0.65, testMode);
-            Functions.arm(this, hardwareMap, telemetry, -165, 0.65, testMode);
+            Functions.viperSlideMove(this, hardwareMap, telemetry, 165, 0.65, testMode);
+            Functions.viperSlideMove(this, hardwareMap, telemetry, -165, 0.65, testMode);
         }
     }
 

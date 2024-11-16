@@ -237,35 +237,35 @@
             FrontRight.setPower(0);
         }
 
-        public static void arm(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, double Arm_target, double Speed, boolean testMode) {
+        public static void viperSlideMove(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, double Arm_target, double Speed, boolean testMode) {
             // 10in = 600
             // 1in = 60
 
             final double unitsPerInch = 60;
 
-            DcMotor ArmMotor;
+            DcMotor ViperSlideMotor;
 
-            ArmMotor = hardwareMap.get(DcMotor.class, "ArmMotor");
+            ViperSlideMotor = hardwareMap.get(DcMotor.class, "ViperSlideMotor");
 
-            ArmMotor.setDirection(DcMotor.Direction.REVERSE);
+            ViperSlideMotor.setDirection(DcMotor.Direction.REVERSE);
 
-            ArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+            ViperSlideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-            ArmMotor.setTargetPosition((int)(Arm_target * unitsPerInch));
+            ViperSlideMotor.setTargetPosition((int)(Arm_target * unitsPerInch));
 
-            ArmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            ViperSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            ArmMotor.setPower(Speed);
+            ViperSlideMotor.setPower(Speed);
 
-            while (opMode.opModeIsActive() && ArmMotor.isBusy()) {
+            while (opMode.opModeIsActive() && ViperSlideMotor.isBusy()) {
                 if (testMode)
                 {
-                    telemetry.addData("ArmMotor", ArmMotor.getCurrentPosition() + "," + ArmMotor.getPower());
-                    telemetry.addData("Speed", ArmMotor.getPower());
-                    telemetry.addData("Avg", ArmMotor.getCurrentPosition());
+                    telemetry.addData("ArmMotor", ViperSlideMotor.getCurrentPosition() + "," + ViperSlideMotor.getPower());
+                    telemetry.addData("Speed", ViperSlideMotor.getPower());
+                    telemetry.addData("Avg", ViperSlideMotor.getCurrentPosition());
                     telemetry.addData("Target", Arm_target);
-                    telemetry.addData("%", (ArmMotor.getCurrentPosition() / (Arm_target * unitsPerInch)));
-                    telemetry.addData("ArmMotorBusy", ArmMotor.isBusy());
+                    telemetry.addData("%", (ViperSlideMotor.getCurrentPosition() / (Arm_target * unitsPerInch)));
+                    telemetry.addData("ArmMotorBusy", ViperSlideMotor.isBusy());
                     telemetry.update();
                 }
 
@@ -277,7 +277,59 @@
                 opMode.idle();
             }
 
-            ArmMotor.setPower(0);
+            ViperSlideMotor.setPower(0);
+            return;
+        }
+
+        public static void frontArmMove(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, double Arm_target, double Speed, String endPosition, boolean testMode) {
+            // 10in = 600
+            // 1in = 60
+
+            final double unitsPerInch = 60;
+
+            DcMotor FrontArmMotor;
+
+            FrontArmMotor = hardwareMap.get(DcMotor.class, "FrontArmMotor");
+
+            FrontArmMotor.setDirection(DcMotor.Direction.REVERSE);
+
+            FrontArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+            FrontArmMotor.setTargetPosition((int)(Arm_target * unitsPerInch));
+
+            FrontArmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+            FrontArmMotor.setPower(Speed);
+
+            while (opMode.opModeIsActive() && FrontArmMotor.isBusy()) {
+                if (testMode)
+                {
+                    telemetry.addData("ArmMotor", FrontArmMotor.getCurrentPosition() + "," + FrontArmMotor.getPower());
+                    telemetry.addData("Speed", FrontArmMotor.getPower());
+                    telemetry.addData("Avg", FrontArmMotor.getCurrentPosition());
+                    telemetry.addData("Target", Arm_target);
+                    telemetry.addData("%", (FrontArmMotor.getCurrentPosition() / (Arm_target * unitsPerInch)));
+                    telemetry.addData("ArmMotorBusy", FrontArmMotor.isBusy());
+                    telemetry.update();
+                }
+
+                if(!opMode.opModeIsActive())
+                {
+                    return;
+                }
+
+                opMode.idle();
+            }
+/*
+            if(endPosition == "Front"){
+                FrontArmMotor.setPower(0.05);
+            } else if(endPosition == "Back") {
+                FrontArmMotor.setPower(-0.05);
+            } else {
+                FrontArmMotor.setPower(0);
+            } */
+
+            FrontArmMotor.setPower(0);
             return;
         }
 

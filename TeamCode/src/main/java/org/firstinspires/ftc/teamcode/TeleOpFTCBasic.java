@@ -175,13 +175,13 @@ public class TeleOpFTCBasic extends LinearOpMode {
                 if (gamepad2.y) {
                 } else if (gamepad2.b) {
                     if(!viperSlideIsUp) {
-                        Functions.arm(this, hardwareMap, telemetry, 165, 0.65, testMode);
+                        Functions.viperSlideMove(this, hardwareMap, telemetry, 165, 0.65, testMode);
                         viperSlideIsUp = true;
                     }
                 } else if (gamepad2.x) {
                 } else if (gamepad2.a) {
                     if (viperSlideIsUp) {
-                        Functions.arm(this, hardwareMap, telemetry, -165, 0.65, testMode);
+                        Functions.viperSlideMove(this, hardwareMap, telemetry, -165, 0.65, testMode);
                         viperSlideIsUp = false;
                     }
                 } else {

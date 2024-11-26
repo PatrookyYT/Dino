@@ -61,7 +61,8 @@
             // Wait for the game to start (driver presses PLAY)
             boolean Start = false;
             boolean DriveTest = false;
-            boolean distanceTest = true;
+            boolean distanceTestR = true;
+            boolean distanceTestK = false;
             boolean testMode = true;
             boolean turnTest = false;
             boolean viperSlideTest = false;
@@ -127,10 +128,16 @@
                 Functions.viperSlideMove(this, hardwareMap, telemetry, -165, 0.65, testMode);
             }
 
-            if (distanceTest) {
+            if (distanceTestR) {
                 Functions.driveUntilDistance(this, hardwareMap, telemetry, 7, 0.05, testMode);
                 Functions.pause(2);
                 Functions.driveUntilDistance(this, hardwareMap, telemetry, 12, 0.05, testMode);
+            }
+
+            if(distanceTestK) {
+                Functions.driveUntilDistanceKiro(this, hardwareMap, telemetry, 7, 0.05, testMode);
+                Functions.pause(2);
+                Functions.driveUntilDistanceKiro(this, hardwareMap, telemetry, 12, 0.05, testMode);
             }
         }
 

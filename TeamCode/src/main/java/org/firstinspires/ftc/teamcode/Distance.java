@@ -11,7 +11,7 @@ public class Distance {
     public static double GetDistanceLeft(LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry)
     {
         DistanceSensor distanceSensorLeft;
-        distanceSensorLeft = hardwareMap.get(DistanceSensor.class, "distanceSensorLeft");
+        distanceSensorLeft = hardwareMap.get(DistanceSensor.class, "distanceSensorRight");
 
         return distanceSensorLeft.getDistance(DistanceUnit.INCH);
     }

@@ -13,7 +13,7 @@ public class TeleOpFTCBasic extends LinearOpMode {
     private DcMotor BackRight;
     private DcMotor FrontLeft;
     private DcMotor FrontRight;
-    private DcMotor ViperSlideMotor;
+    //private DcMotor ViperSlideMotor;
     private DcMotor FrontArmMotor;
     private CRServo ClawArmServo;
 
@@ -28,7 +28,8 @@ public class TeleOpFTCBasic extends LinearOpMode {
         boolean testMode;
         double D_Speed = 0.5;
         double halfSpeed = 0.5;
-        double arm_Speed = 0.5;
+        double arm_SpeedLeft = 0.5;
+        double arm_SpeedRight = 0.3;
         double wheel_Speed = 1;
         float verticalGp1_left;
         float horizontalGp1_left;
@@ -50,7 +51,7 @@ public class TeleOpFTCBasic extends LinearOpMode {
         BackRight = hardwareMap.get(DcMotor.class, "BackRight");
         FrontLeft = hardwareMap.get(DcMotor.class, "FrontLeft");
         FrontRight = hardwareMap.get(DcMotor.class, "FrontRight");
-        ViperSlideMotor = hardwareMap.get(DcMotor.class, "ViperSlideMotor");
+        //ViperSlideMotor = hardwareMap.get(DcMotor.class, "ViperSlideMotor");
         FrontArmMotor = hardwareMap.get(DcMotor.class, "FrontArmMotor");
 
         ControlHub_ServoController = hardwareMap.get(ServoController.class, "Control Hub");
@@ -118,9 +119,13 @@ public class TeleOpFTCBasic extends LinearOpMode {
                 FrontLeft.setPower((horizontalGp1_left + verticalGp1_left) * wheel_Speed);
                 FrontRight.setPower((horizontalGp1_left - verticalGp1_left) * wheel_Speed);
 
-                ViperSlideMotor.setPower(verticalGp1_right);
+                //ViperSlideMotor.setPower(verticalGp1_right);
 
-                FrontArmMotor.setPower(verticalGp2_left  * arm_Speed);
+                if (verticalGp2_right > -0.01 && verticalGp2_right < 0.01){
+                    FrontArmMotor.setPower(verticalGp2_left * arm_SpeedLeft);
+                } else {
+                    FrontArmMotor.setPower(verticalGp2_right * arm_SpeedRight);
+                }
 
                 if (gamepad1.dpad_left) {
                     // Turns the robot left (Hopefully)
@@ -175,21 +180,21 @@ public class TeleOpFTCBasic extends LinearOpMode {
                 if (gamepad2.y) {
                 } else if (gamepad2.b) {
                     if(!viperSlideIsUp) {
-                        Functions.viperSlideMove(this, hardwareMap, telemetry, 165, 0.65, testMode);
+                        //Functions.viperSlideMove(this, hardwareMap, telemetry, 165, 0.65, testMode);
                         viperSlideIsUp = true;
                     }
                 } else if (gamepad2.x) {
                 } else if (gamepad2.a) {
                     if (viperSlideIsUp) {
-                        Functions.viperSlideMove(this, hardwareMap, telemetry, -165, 0.65, testMode);
+                        //Functions.viperSlideMove(this, hardwareMap, telemetry, -165, 0.65, testMode);
                         viperSlideIsUp = false;
                     }
                 } else {
-                    ViperSlideMotor.setPower(0);
+                    //ViperSlideMotor.setPower(0);
                 }
                 if (gamepad2.left_bumper) {
                     if (!clawArmServoIsOpen) {
-                        ClawArmServo.setPower(0);
+                        ClawArmServo.setPower(-1);
                         clawArmServoIsOpen = true;
                     }
                 } else if (gamepad2.right_bumper) {
@@ -207,9 +212,9 @@ public class TeleOpFTCBasic extends LinearOpMode {
                     telemetry.addData("FrontLeft", FrontLeft.getPower());
                     telemetry.addData("FrontRight", FrontRight.getPower());
 
-                    telemetry.addLine("\nViperSlide:");
+                    /*telemetry.addLine("\nViperSlide:");
                     telemetry.addData("ViperSlide", ViperSlideMotor.getPower());
-                    telemetry.addData("ViperSlide is up", viperSlideIsUp);
+                    telemetry.addData("ViperSlide is up", viperSlideIsUp);*/
 
                     telemetry.addLine("\nFrontArmMotor:");
                     telemetry.addData("FrontArmMotor", FrontArmMotor.getPower());
@@ -255,7 +260,7 @@ public class TeleOpFTCBasic extends LinearOpMode {
                     telemetry.addData("BackRight", BackRight.getPortNumber());
                     telemetry.addData("FrontLeft", FrontLeft.getPortNumber());
                     telemetry.addData("FrontRight", FrontRight.getPortNumber());
-                    telemetry.addData("ViperSlide", ViperSlideMotor.getPortNumber());
+                    //telemetry.addData("ViperSlide", ViperSlideMotor.getPortNumber());
                     telemetry.addData("FrontArmMotor", FrontArmMotor.getPortNumber());
                     telemetry.addData("ClawArmServo", ClawArmServo.getPortNumber());
                 }

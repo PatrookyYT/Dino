@@ -8,26 +8,19 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import java.util.HashSet;
 
 public class Distance {
-    public static double GetDisance(LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, String SensorDirection)
+    public static double GetDistanceLeft(LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry)
     {
-        // SensorDirection = rightDistanceSensor, leftDistanceSensor.
+        DistanceSensor distanceSensorLeft;
+        distanceSensorLeft = hardwareMap.get(DistanceSensor.class, "distanceSensorLeft");
 
-        HashSet<String> sensorNames = new HashSet<String>();
-        sensorNames.add("rightDistanceSensor");
-        sensorNames.add("leftDistanceSensor");
-
-        DistanceSensor distanceSensor;
-
-        if(sensorNames.contains(SensorDirection))
-        {
-            distanceSensor = hardwareMap.get(DistanceSensor.class, SensorDirection);
-        } else {
-            return 0;
-        }
-
-
-        return distanceSensor.getDistance(DistanceUnit.CM);
+        return distanceSensorLeft.getDistance(DistanceUnit.INCH);
     }
 
+    public static double GetDistanceRight(LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry)
+    {
+        DistanceSensor distanceSensorRight;
+        distanceSensorRight = hardwareMap.get(DistanceSensor.class, "distanceSensorRight");
 
+        return distanceSensorRight.getDistance(DistanceUnit.INCH);
+    }
 }

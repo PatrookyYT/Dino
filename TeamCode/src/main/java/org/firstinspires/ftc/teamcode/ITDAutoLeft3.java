@@ -37,6 +37,8 @@
 
             // 10in = 572
 
+            Running = opModeIsActive();
+
             if(Running)
             {
                 // Drive to pixel

@@ -49,6 +49,8 @@ public class ITDAutoLeft5 extends LinearOpMode {
 
         // 10in = 572
 
+        Running = opModeIsActive();
+
         if(Running)
         {
             // Drive to pixel
@@ -65,7 +67,9 @@ public class ITDAutoLeft5 extends LinearOpMode {
             Functions.turn(this, hardwareMap, telemetry, "Right", 0.4, testMode);
             Functions.pause(0.25);
 //10.78
-            Functions.drive(this, hardwareMap, telemetry, 12, 12, 0.4, 12, 12, testMode);
+            Functions.driveUntilDistance(this, hardwareMap, telemetry, 6.7,47, 0.05, testMode);
+            Functions.pause(0.25);
+            Functions.driveUntilDistance(this, hardwareMap, telemetry, 6.7,47, 0.05, testMode);
             Functions.pause(0.25);
 
             Functions.frontArmMove(this, hardwareMap, telemetry, 12, 0.175, "Front", testMode);

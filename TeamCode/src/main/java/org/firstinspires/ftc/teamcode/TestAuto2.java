@@ -4,6 +4,7 @@
 
     import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
     import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+    import com.qualcomm.robotcore.hardware.CRServo;
     import com.qualcomm.robotcore.hardware.ServoController;
     import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -41,6 +42,7 @@
 
         // Declare OpMode members.
         private ElapsedTime runtime = new ElapsedTime();
+        private CRServo ClawArmServo;
         public ServoController ControlHub_ServoController;
         //public ServoController ExpansionHub2_ServoController;
 
@@ -56,13 +58,19 @@
             //Replace the device name (ex frontLeft) with the NAME OF THE
             //MOTORS DEFINED IN THE DRIVER HUB
             ControlHub_ServoController = hardwareMap.get(ServoController.class, "Control Hub");
+            ClawArmServo = hardwareMap.get(CRServo.class, "ClawArmServo");
             //ExpansionHub2_ServoController = hardwareMap.get(ServoController.class, "Expansion Hub 2");
+
+            //Disable pwm
+            ControlHub_ServoController.pwmDisable();
 
             // Wait for the game to start (driver presses PLAY)
             boolean Start = false;
             boolean DriveTest = false;
-            boolean distanceTestR = true;
-            boolean distanceTestK = false;
+            boolean distanceTestR = false;
+            boolean getDistanceTest = true;
+            boolean clawTest = false;
+            boolean armTest = false;
             boolean testMode = true;
             boolean turnTest = false;
             boolean viperSlideTest = false;
@@ -129,15 +137,38 @@
             }
 
             if (distanceTestR) {
-                Functions.driveUntilDistance(this, hardwareMap, telemetry, 7, 0.05, testMode);
+                Functions.driveUntilDistance(this, hardwareMap, telemetry, 7,47, 0.05, testMode);
                 Functions.pause(2);
-                Functions.driveUntilDistance(this, hardwareMap, telemetry, 12, 0.05, testMode);
+                Functions.driveUntilDistance(this, hardwareMap, telemetry, 12, 47,0.05, testMode);
             }
 
-            if(distanceTestK) {
-                Functions.driveUntilDistanceKiro(this, hardwareMap, telemetry, 7, 0.05, testMode);
+            if(clawTest) {
+                ClawArmServo.setPower(1);
                 Functions.pause(2);
-                Functions.driveUntilDistanceKiro(this, hardwareMap, telemetry, 12, 0.05, testMode);
+                ClawArmServo.setPower(0);
+                Functions.pause(2);
+            }
+
+            if(armTest) {
+                Functions.frontArmMove(this, hardwareMap, telemetry, 14, 0.25, "Front", testMode);
+                Functions.pause(1.5);
+                Functions.frontArmStop(this, hardwareMap, telemetry, testMode);
+                Functions.pause(1.5);
+
+                Functions.frontArmMove(this, hardwareMap, telemetry, -14, 0.25, "Front", testMode);
+                Functions.pause(1.5);
+                Functions.frontArmStop(this, hardwareMap, telemetry, testMode);
+                Functions.pause(1.5);
+            }
+
+            if(getDistanceTest) {
+                while (opModeIsActive())
+                {
+                    telemetry.addLine("Distance:");
+                    telemetry.addData("DistanceSensorRight", Distance.GetDistanceRight(this, hardwareMap, telemetry));
+                    telemetry.addData("DistanceSensorLeft", Distance.GetDistanceLeft(this, hardwareMap, telemetry));
+                    telemetry.update();
+                }
             }
         }
 

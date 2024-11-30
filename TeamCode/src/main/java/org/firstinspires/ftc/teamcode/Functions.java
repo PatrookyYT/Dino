@@ -1,325 +1,347 @@
-    package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode;
 
-    import com.qualcomm.robotcore.hardware.CRServo;
-    import com.qualcomm.robotcore.hardware.DcMotor;
-    import com.qualcomm.robotcore.hardware.IMU;
-    import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.IMU;
+import com.qualcomm.robotcore.hardware.ServoController;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
-    import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-    import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
-    public class Functions {
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
-        public static void pause(double waitTime) {
-            ElapsedTime elapsedTime = new ElapsedTime();
+public class Functions {
 
-            while (elapsedTime.seconds() < waitTime) {
-                //STOP, wait a minute
-            }
+    public static void pause(double waitTime) {
+        ElapsedTime elapsedTime = new ElapsedTime();
+
+        while (elapsedTime.seconds() < waitTime) {
+            //STOP, wait a minute
         }
+    }
 
-        public static String formatSeconds(double inputSeconds){
-            double fixedValue = Math.floor(inputSeconds * 10) / 10;
-            return String.valueOf(fixedValue);
-        }
+    public static String formatSeconds(double inputSeconds){
+        double fixedValue = Math.floor(inputSeconds * 10) / 10;
+        return String.valueOf(fixedValue);
+    }
 
-        public static void drive(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, double BackLeft_target, double BackRight_target, double Speed, double FrontLeft_target, double FrontRight_target, boolean testMode) {
-            // 10in = 600
-            // 1in = 60
-
-            final double unitsPerInch = 60;
-
-            DcMotor BackLeft;
-            DcMotor BackRight;
-            DcMotor FrontLeft;
-            DcMotor FrontRight;
-
-            BackLeft = hardwareMap.get(DcMotor.class, "BackLeft");
-            BackRight = hardwareMap.get(DcMotor.class, "BackRight");
-            FrontLeft = hardwareMap.get(DcMotor.class, "FrontLeft");
-            FrontRight = hardwareMap.get(DcMotor.class, "FrontRight");
-
-            BackLeft.setDirection(DcMotor.Direction.REVERSE);
-            BackRight.setDirection(DcMotor.Direction.FORWARD);
-            FrontLeft.setDirection(DcMotor.Direction.REVERSE);
-            FrontRight.setDirection(DcMotor.Direction.FORWARD);
-
-            BackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            BackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            FrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            FrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-            BackLeft.setTargetPosition((int)(BackLeft_target * unitsPerInch));
-            BackRight.setTargetPosition((int)(BackRight_target * unitsPerInch));
-            FrontLeft.setTargetPosition((int)(FrontLeft_target * unitsPerInch));
-            FrontRight.setTargetPosition((int)(FrontRight_target * unitsPerInch));
-
-            BackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            BackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            FrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            FrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            BackLeft.setPower(Speed);
-            BackRight.setPower(Speed);
-            FrontLeft.setPower(Speed);
-            FrontRight.setPower(Speed);
-
-            DcMotor[] WHEELS = new DcMotor[4];
-            WHEELS[0] = BackLeft;
-            WHEELS[1] = BackRight;
-            WHEELS[2] = FrontLeft;
-            WHEELS[3] = FrontRight;
-
-            while (opMode.opModeIsActive() && BackLeft.isBusy() && BackRight.isBusy() && FrontLeft.isBusy() && FrontRight.isBusy()) {
-                if (testMode)
-                {
-                    telemetry.addData("bk-left-end", BackLeft.getCurrentPosition() + "," + BackLeft.getPower());
-                    telemetry.addData("bk-right-end", BackRight.getCurrentPosition() + "," + BackRight.getPower());
-                    telemetry.addData("fwd-left-end", FrontLeft.getCurrentPosition() + "," + FrontLeft.getPower());
-                    telemetry.addData("fwd-right-end", FrontRight.getCurrentPosition() + "," + FrontRight.getPower());
-                    telemetry.addData("bk-left-endBusy", BackLeft.isBusy());
-                    telemetry.addData("bk-right-endBusy", BackRight.isBusy());
-                    telemetry.addData("fwd-left-endBusy", FrontLeft.isBusy());
-                    telemetry.addData("fwd-right-endBusy", FrontRight.isBusy());
-                    telemetry.update();
-                }
-
-                if(!opMode.opModeIsActive())
-                {
-                    return;
-                }
-
-                opMode.idle();
-            }
-
-            BackLeft.setPower(0);
-            BackRight.setPower(0);
-            FrontLeft.setPower(0);
-            FrontRight.setPower(0);
-
-        }
-
-        public static void driveDirect(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, double wheel_target, double target_Speed, boolean testMode) {
-            // 10in = 600
-            // 1in = 60
-
-            final double unitsPerInch = 60;
-
-            DcMotor BackLeft;
-            DcMotor BackRight;
-            DcMotor FrontLeft;
-            DcMotor FrontRight;
-
-            BackLeft = hardwareMap.get(DcMotor.class, "BackLeft");
-            BackRight = hardwareMap.get(DcMotor.class, "BackRight");
-            FrontLeft = hardwareMap.get(DcMotor.class, "FrontLeft");
-            FrontRight = hardwareMap.get(DcMotor.class, "FrontRight");
-
-            BackLeft.setDirection(DcMotor.Direction.REVERSE);
-            BackRight.setDirection(DcMotor.Direction.FORWARD);
-            FrontLeft.setDirection(DcMotor.Direction.REVERSE);
-            FrontRight.setDirection(DcMotor.Direction.FORWARD);
-
-            BackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            BackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            FrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            FrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-            BackLeft.setTargetPosition((int)(wheel_target * unitsPerInch));
-            BackRight.setTargetPosition((int)(wheel_target * unitsPerInch));
-            FrontLeft.setTargetPosition((int)(wheel_target * unitsPerInch));
-            FrontRight.setTargetPosition((int)(wheel_target * unitsPerInch));
-
-            BackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            BackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            FrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            FrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            BackLeft.setPower(target_Speed);
-            BackRight.setPower(target_Speed);
-            FrontLeft.setPower(target_Speed);
-            FrontRight.setPower(target_Speed);
-
-            boolean threshold1Passed = false;
-            boolean threshold2Passed = false;
-            boolean threshold3Passed = false;
-            boolean threshold4Passed = false;
-
-            double threshold1 = 0.05;
-            double threshold2 = 0.1;
-            double threshold3 = 0.75;
-            double threshold4 = 0.90;
-
-            double speed1 = 1;
-            double speed2 = 0.75;
-            double speed3 = 0.5;
-            double speed4 = 0.25;
-
-
-            double currentSpeed = 0;
-            double newSpeed = speed4;
-
-            while (opMode.opModeIsActive() && BackLeft.isBusy() && BackRight.isBusy() && FrontLeft.isBusy() && FrontRight.isBusy())
-            {
-                double avgPos = ((BackLeft.getCurrentPosition() + BackRight.getCurrentPosition() + FrontLeft.getCurrentPosition() + FrontRight.getCurrentPosition())/4f);
-
-                if(!threshold1Passed)
-                {
-                    if((avgPos/(wheel_target * unitsPerInch)) >= threshold1)
-                    {
-                        threshold1Passed = true;
-                        newSpeed = target_Speed * speed3;
-                    }
-                }
-                if(!threshold2Passed)
-                {
-                    if((avgPos/(wheel_target * unitsPerInch)) >= threshold2)
-                    {
-                        threshold2Passed = true;
-                        newSpeed = target_Speed * speed1;
-                    }
-                }
-                if(!threshold3Passed)
-                {
-                    if((avgPos/(wheel_target * unitsPerInch)) >= threshold3)
-                    {
-                        threshold3Passed = true;
-                        newSpeed = target_Speed * speed2;
-                    }
-                }
-                if(!threshold4Passed)
-                {
-                    if((avgPos/(wheel_target * unitsPerInch)) >= threshold4)
-                    {
-                        threshold4Passed = true;
-                        newSpeed = target_Speed * speed4;
-                    }
-                }
-
-                if(newSpeed != currentSpeed) {
-                    currentSpeed = newSpeed;
-                    BackLeft.setPower(currentSpeed);
-                    BackRight.setPower(currentSpeed);
-                    FrontLeft.setPower(currentSpeed);
-                    FrontRight.setPower(currentSpeed);
-                }
-                if (testMode) {
-                    telemetry.addData("bk-left-end", BackLeft.getCurrentPosition() + "," + BackLeft.getPower());
-                    telemetry.addData("bk-right-end", BackRight.getCurrentPosition() + "," + BackRight.getPower());
-                    telemetry.addData("fwd-left-end", FrontLeft.getCurrentPosition() + "," + FrontLeft.getPower());
-                    telemetry.addData("fwd-right-end", FrontRight.getCurrentPosition() + "," + FrontRight.getPower());
-                    telemetry.addData("Speed", currentSpeed);
-                    telemetry.addData("Avg", avgPos);
-                    telemetry.addData("Target", wheel_target);
-                    telemetry.addData("%", (avgPos / (wheel_target * unitsPerInch)));
-                    telemetry.addData("bk-left-endBusy", BackLeft.isBusy());
-                    telemetry.addData("bk-right-endBusy", BackRight.isBusy());
-                    telemetry.addData("fwd-left-endBusy", FrontLeft.isBusy());
-                    telemetry.addData("fwd-right-endBusy", FrontRight.isBusy());
-                    telemetry.addData("Threshold 1 Passed", threshold1Passed);
-                    telemetry.addData("Threshold 2 Passed", threshold2Passed);
-                    telemetry.addData("Threshold 3 Passed", threshold3Passed);
-                    telemetry.addData("Threshold 4 Passed", threshold4Passed);
-                    telemetry.update();
-                }
-
-                if(!opMode.opModeIsActive())
-                {
-                    return;
-                }
-
-                opMode.idle();
-            }
-
-            BackLeft.setPower(0);
-            BackRight.setPower(0);
-            FrontLeft.setPower(0);
-            FrontRight.setPower(0);
-        }
-
-        public static void viperSlideMove(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, double Arm_target, double Speed, boolean testMode) {
-            // 10in = 600
-            // 1in = 60
-
-            final double unitsPerInch = 60;
-
-            DcMotor ViperSlideMotor;
-
-            ViperSlideMotor = hardwareMap.get(DcMotor.class, "ViperSlideMotor");
-
-            ViperSlideMotor.setDirection(DcMotor.Direction.REVERSE);
-
-            ViperSlideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-            ViperSlideMotor.setTargetPosition((int)(Arm_target * unitsPerInch));
-
-            ViperSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            ViperSlideMotor.setPower(Speed);
-
-            while (opMode.opModeIsActive() && ViperSlideMotor.isBusy()) {
-                if (testMode)
-                {
-                    telemetry.addData("ArmMotor", ViperSlideMotor.getCurrentPosition() + "," + ViperSlideMotor.getPower());
-                    telemetry.addData("Speed", ViperSlideMotor.getPower());
-                    telemetry.addData("Avg", ViperSlideMotor.getCurrentPosition());
-                    telemetry.addData("Target", Arm_target);
-                    telemetry.addData("%", (ViperSlideMotor.getCurrentPosition() / (Arm_target * unitsPerInch)));
-                    telemetry.addData("ArmMotorBusy", ViperSlideMotor.isBusy());
-                    telemetry.update();
-                }
-
-                if(!opMode.opModeIsActive())
-                {
-                    return;
-                }
-
-                opMode.idle();
-            }
-
-            ViperSlideMotor.setPower(0);
+    public static void drive(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, double BackLeft_target, double BackRight_target, double Speed, double FrontLeft_target, double FrontRight_target, boolean testMode) {
+        if(!opMode.opModeIsActive())
+        {
             return;
         }
 
-        public static void frontArmMove(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, double Arm_target, double Speed, String endPosition, boolean testMode) {
-            // 10in = 600
-            // 1in = 60
+        // 10in = 600
+        // 1in = 60
 
-            final double unitsPerInch = 60;
+        final double unitsPerInch = 60;
 
-            DcMotor FrontArmMotor;
+        DcMotor BackLeft;
+        DcMotor BackRight;
+        DcMotor FrontLeft;
+        DcMotor FrontRight;
 
-            FrontArmMotor = hardwareMap.get(DcMotor.class, "FrontArmMotor");
+        BackLeft = hardwareMap.get(DcMotor.class, "BackLeft");
+        BackRight = hardwareMap.get(DcMotor.class, "BackRight");
+        FrontLeft = hardwareMap.get(DcMotor.class, "FrontLeft");
+        FrontRight = hardwareMap.get(DcMotor.class, "FrontRight");
 
-            FrontArmMotor.setDirection(DcMotor.Direction.REVERSE);
+        BackLeft.setDirection(DcMotor.Direction.REVERSE);
+        BackRight.setDirection(DcMotor.Direction.FORWARD);
+        FrontLeft.setDirection(DcMotor.Direction.REVERSE);
+        FrontRight.setDirection(DcMotor.Direction.FORWARD);
 
-            FrontArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        FrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        FrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-            FrontArmMotor.setTargetPosition((int)(Arm_target * unitsPerInch));
+        BackLeft.setTargetPosition((int)(BackLeft_target * unitsPerInch));
+        BackRight.setTargetPosition((int)(BackRight_target * unitsPerInch));
+        FrontLeft.setTargetPosition((int)(FrontLeft_target * unitsPerInch));
+        FrontRight.setTargetPosition((int)(FrontRight_target * unitsPerInch));
 
-            FrontArmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        FrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        FrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            FrontArmMotor.setPower(Speed);
+        BackLeft.setPower(Speed);
+        BackRight.setPower(Speed);
+        FrontLeft.setPower(Speed);
+        FrontRight.setPower(Speed);
 
-            while (opMode.opModeIsActive() && FrontArmMotor.isBusy()) {
-                if (testMode)
-                {
-                    telemetry.addData("ArmMotor", FrontArmMotor.getCurrentPosition() + "," + FrontArmMotor.getPower());
-                    telemetry.addData("Speed", FrontArmMotor.getPower());
-                    telemetry.addData("Avg", FrontArmMotor.getCurrentPosition());
-                    telemetry.addData("Target", Arm_target);
-                    telemetry.addData("%", (FrontArmMotor.getCurrentPosition() / (Arm_target * unitsPerInch)));
-                    telemetry.addData("ArmMotorBusy", FrontArmMotor.isBusy());
-                    telemetry.update();
-                }
+        DcMotor[] WHEELS = new DcMotor[4];
+        WHEELS[0] = BackLeft;
+        WHEELS[1] = BackRight;
+        WHEELS[2] = FrontLeft;
+        WHEELS[3] = FrontRight;
 
-                if(!opMode.opModeIsActive())
-                {
-                    return;
-                }
-
-                opMode.idle();
+        while (opMode.opModeIsActive() && BackLeft.isBusy() && BackRight.isBusy() && FrontLeft.isBusy() && FrontRight.isBusy()) {
+            if (testMode)
+            {
+                telemetry.addData("bk-left-end", BackLeft.getCurrentPosition() + "," + BackLeft.getPower());
+                telemetry.addData("bk-right-end", BackRight.getCurrentPosition() + "," + BackRight.getPower());
+                telemetry.addData("fwd-left-end", FrontLeft.getCurrentPosition() + "," + FrontLeft.getPower());
+                telemetry.addData("fwd-right-end", FrontRight.getCurrentPosition() + "," + FrontRight.getPower());
+                telemetry.addData("bk-left-endBusy", BackLeft.isBusy());
+                telemetry.addData("bk-right-endBusy", BackRight.isBusy());
+                telemetry.addData("fwd-left-endBusy", FrontLeft.isBusy());
+                telemetry.addData("fwd-right-endBusy", FrontRight.isBusy());
+                telemetry.update();
             }
+
+            if(!opMode.opModeIsActive())
+            {
+                return;
+            }
+
+            opMode.idle();
+        }
+
+        BackLeft.setPower(0);
+        BackRight.setPower(0);
+        FrontLeft.setPower(0);
+        FrontRight.setPower(0);
+
+    }
+
+    public static void driveDirect(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, double wheel_target, double target_Speed, boolean testMode) {
+        if(!opMode.opModeIsActive())
+        {
+            return;
+        }
+
+        // 10in = 600
+        // 1in = 60
+
+        final double unitsPerInch = 60;
+
+        DcMotor BackLeft;
+        DcMotor BackRight;
+        DcMotor FrontLeft;
+        DcMotor FrontRight;
+
+        BackLeft = hardwareMap.get(DcMotor.class, "BackLeft");
+        BackRight = hardwareMap.get(DcMotor.class, "BackRight");
+        FrontLeft = hardwareMap.get(DcMotor.class, "FrontLeft");
+        FrontRight = hardwareMap.get(DcMotor.class, "FrontRight");
+
+        BackLeft.setDirection(DcMotor.Direction.REVERSE);
+        BackRight.setDirection(DcMotor.Direction.FORWARD);
+        FrontLeft.setDirection(DcMotor.Direction.REVERSE);
+        FrontRight.setDirection(DcMotor.Direction.FORWARD);
+
+        BackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        FrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        FrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        BackLeft.setTargetPosition((int)(wheel_target * unitsPerInch));
+        BackRight.setTargetPosition((int)(wheel_target * unitsPerInch));
+        FrontLeft.setTargetPosition((int)(wheel_target * unitsPerInch));
+        FrontRight.setTargetPosition((int)(wheel_target * unitsPerInch));
+
+        BackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        FrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        FrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        BackLeft.setPower(target_Speed);
+        BackRight.setPower(target_Speed);
+        FrontLeft.setPower(target_Speed);
+        FrontRight.setPower(target_Speed);
+
+        boolean threshold1Passed = false;
+        boolean threshold2Passed = false;
+        boolean threshold3Passed = false;
+        boolean threshold4Passed = false;
+
+        double threshold1 = 0.05;
+        double threshold2 = 0.1;
+        double threshold3 = 0.75;
+        double threshold4 = 0.90;
+
+        double speed1 = 1;
+        double speed2 = 0.75;
+        double speed3 = 0.5;
+        double speed4 = 0.25;
+
+
+        double currentSpeed = 0;
+        double newSpeed = speed4;
+
+        while (opMode.opModeIsActive() && BackLeft.isBusy() && BackRight.isBusy() && FrontLeft.isBusy() && FrontRight.isBusy())
+        {
+            double avgPos = ((BackLeft.getCurrentPosition() + BackRight.getCurrentPosition() + FrontLeft.getCurrentPosition() + FrontRight.getCurrentPosition())/4f);
+
+            if(!threshold1Passed)
+            {
+                if((avgPos/(wheel_target * unitsPerInch)) >= threshold1)
+                {
+                    threshold1Passed = true;
+                    newSpeed = target_Speed * speed3;
+                }
+            }
+            if(!threshold2Passed)
+            {
+                if((avgPos/(wheel_target * unitsPerInch)) >= threshold2)
+                {
+                    threshold2Passed = true;
+                    newSpeed = target_Speed * speed1;
+                }
+            }
+            if(!threshold3Passed)
+            {
+                if((avgPos/(wheel_target * unitsPerInch)) >= threshold3)
+                {
+                    threshold3Passed = true;
+                    newSpeed = target_Speed * speed2;
+                }
+            }
+            if(!threshold4Passed)
+            {
+                if((avgPos/(wheel_target * unitsPerInch)) >= threshold4)
+                {
+                    threshold4Passed = true;
+                    newSpeed = target_Speed * speed4;
+                }
+            }
+
+            if(newSpeed != currentSpeed) {
+                currentSpeed = newSpeed;
+                BackLeft.setPower(currentSpeed);
+                BackRight.setPower(currentSpeed);
+                FrontLeft.setPower(currentSpeed);
+                FrontRight.setPower(currentSpeed);
+            }
+            if (testMode) {
+                telemetry.addData("bk-left-end", BackLeft.getCurrentPosition() + "," + BackLeft.getPower());
+                telemetry.addData("bk-right-end", BackRight.getCurrentPosition() + "," + BackRight.getPower());
+                telemetry.addData("fwd-left-end", FrontLeft.getCurrentPosition() + "," + FrontLeft.getPower());
+                telemetry.addData("fwd-right-end", FrontRight.getCurrentPosition() + "," + FrontRight.getPower());
+                telemetry.addData("Speed", currentSpeed);
+                telemetry.addData("Avg", avgPos);
+                telemetry.addData("Target", wheel_target);
+                telemetry.addData("%", (avgPos / (wheel_target * unitsPerInch)));
+                telemetry.addData("bk-left-endBusy", BackLeft.isBusy());
+                telemetry.addData("bk-right-endBusy", BackRight.isBusy());
+                telemetry.addData("fwd-left-endBusy", FrontLeft.isBusy());
+                telemetry.addData("fwd-right-endBusy", FrontRight.isBusy());
+                telemetry.addData("Threshold 1 Passed", threshold1Passed);
+                telemetry.addData("Threshold 2 Passed", threshold2Passed);
+                telemetry.addData("Threshold 3 Passed", threshold3Passed);
+                telemetry.addData("Threshold 4 Passed", threshold4Passed);
+                telemetry.update();
+            }
+
+            if(!opMode.opModeIsActive())
+            {
+                return;
+            }
+
+            opMode.idle();
+        }
+
+        BackLeft.setPower(0);
+        BackRight.setPower(0);
+        FrontLeft.setPower(0);
+        FrontRight.setPower(0);
+    }
+
+    public static void viperSlideMove(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, double Arm_target, double Speed, boolean testMode) {
+        if(!opMode.opModeIsActive())
+        {
+            return;
+        }
+
+        // 10in = 600
+        // 1in = 60
+
+        final double unitsPerInch = 60;
+
+        DcMotor ViperSlideMotor;
+
+        ViperSlideMotor = hardwareMap.get(DcMotor.class, "ViperSlideMotor");
+
+        ViperSlideMotor.setDirection(DcMotor.Direction.REVERSE);
+
+        ViperSlideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        ViperSlideMotor.setTargetPosition((int)(Arm_target * unitsPerInch));
+
+        ViperSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        ViperSlideMotor.setPower(Speed);
+
+        while (opMode.opModeIsActive() && ViperSlideMotor.isBusy()) {
+            if (testMode)
+            {
+                telemetry.addData("ArmMotor", ViperSlideMotor.getCurrentPosition() + "," + ViperSlideMotor.getPower());
+                telemetry.addData("Speed", ViperSlideMotor.getPower());
+                telemetry.addData("Avg", ViperSlideMotor.getCurrentPosition());
+                telemetry.addData("Target", Arm_target);
+                telemetry.addData("%", (ViperSlideMotor.getCurrentPosition() / (Arm_target * unitsPerInch)));
+                telemetry.addData("ArmMotorBusy", ViperSlideMotor.isBusy());
+                telemetry.update();
+            }
+
+            if(!opMode.opModeIsActive())
+            {
+                return;
+            }
+
+            opMode.idle();
+        }
+
+        ViperSlideMotor.setPower(0);
+        return;
+    }
+
+    public static void frontArmMove(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, double Arm_target, double Speed, String endPosition, boolean testMode) {
+        if(!opMode.opModeIsActive())
+        {
+            return;
+        }
+
+        // 10in = 600
+        // 1in = 60
+
+        final double unitsPerInch = 60;
+
+        DcMotor FrontArmMotor;
+
+        FrontArmMotor = hardwareMap.get(DcMotor.class, "FrontArmMotor");
+
+        FrontArmMotor.setDirection(DcMotor.Direction.REVERSE);
+
+        FrontArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        FrontArmMotor.setTargetPosition((int)(Arm_target * unitsPerInch));
+
+        FrontArmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        FrontArmMotor.setPower(Speed);
+/*
+        while (opMode.opModeIsActive() && FrontArmMotor.isBusy()) {
+            if (testMode)
+            {
+                telemetry.addData("ArmMotor", FrontArmMotor.getCurrentPosition() + "," + FrontArmMotor.getPower());
+                telemetry.addData("Speed", FrontArmMotor.getPower());
+                telemetry.addData("Pos", FrontArmMotor.getCurrentPosition());
+                telemetry.addData("Target", Arm_target);
+                telemetry.addData("%", (FrontArmMotor.getCurrentPosition() / (Arm_target * unitsPerInch)));
+                telemetry.addData("ArmMotorBusy", FrontArmMotor.isBusy());
+                telemetry.update();
+            }
+
+            if(!opMode.opModeIsActive())
+            {
+                return;
+            }
+
+            opMode.idle();
+        }
 /*
             if(endPosition == "Front"){
                 FrontArmMotor.setPower(0.05);
@@ -329,309 +351,405 @@
                 FrontArmMotor.setPower(0);
             } */
 
-            FrontArmMotor.setPower(0);
+        //FrontArmMotor.setPower(0);
+        return;
+    }
+
+    public static void frontArmStop(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, boolean testMode) {
+        if(!opMode.opModeIsActive())
+        {
             return;
         }
 
+        // 10in = 600
+        // 1in = 60
 
-        public static void turn(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, String direction, double Speed, boolean testMode) {
-            DcMotor BackLeft;
-            DcMotor FrontLeft;
-            DcMotor FrontRight;
-            DcMotor BackRight;
+        final double unitsPerInch = 60;
 
-            BackLeft = hardwareMap.get(DcMotor.class, "BackLeft");
-            FrontLeft = hardwareMap.get(DcMotor.class, "FrontLeft");
-            FrontRight = hardwareMap.get(DcMotor.class, "FrontRight");
-            BackRight = hardwareMap.get(DcMotor.class, "BackRight");
+        DcMotor FrontArmMotor;
 
-            FrontLeft.setDirection(DcMotor.Direction.REVERSE);
-            FrontRight.setDirection(DcMotor.Direction.FORWARD);
-            BackLeft.setDirection(DcMotor.Direction.REVERSE);
-            BackRight.setDirection(DcMotor.Direction.FORWARD);
+        FrontArmMotor = hardwareMap.get(DcMotor.class, "FrontArmMotor");
 
-            BackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            FrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            FrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            BackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        FrontArmMotor.setDirection(DcMotor.Direction.REVERSE);
 
-            int distance = 1300;
+        FrontArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-            if (direction == "Right") {
-                BackLeft.setTargetPosition(distance);
-                BackRight.setTargetPosition(-distance);
-                FrontLeft.setTargetPosition(distance);
-                FrontRight.setTargetPosition(-distance);
-            } else if (direction == "Left") {
-                BackLeft.setTargetPosition(-distance);
-                BackRight.setTargetPosition(distance);
-                FrontLeft.setTargetPosition(-distance);
-                FrontRight.setTargetPosition(distance);
+        FrontArmMotor.setTargetPosition((int)(1));
+
+        FrontArmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        FrontArmMotor.setPower(0);
+        return;
+    }
+
+
+    public static void turn(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, String direction, double Speed, boolean testMode) {
+        if(!opMode.opModeIsActive())
+        {
+            return;
+        }
+
+        DcMotor BackLeft;
+        DcMotor FrontLeft;
+        DcMotor FrontRight;
+        DcMotor BackRight;
+
+        BackLeft = hardwareMap.get(DcMotor.class, "BackLeft");
+        FrontLeft = hardwareMap.get(DcMotor.class, "FrontLeft");
+        FrontRight = hardwareMap.get(DcMotor.class, "FrontRight");
+        BackRight = hardwareMap.get(DcMotor.class, "BackRight");
+
+        FrontLeft.setDirection(DcMotor.Direction.REVERSE);
+        FrontRight.setDirection(DcMotor.Direction.FORWARD);
+        BackLeft.setDirection(DcMotor.Direction.REVERSE);
+        BackRight.setDirection(DcMotor.Direction.FORWARD);
+
+        BackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        FrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        FrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        int distance = 1300;
+
+        if (direction == "Right") {
+            BackLeft.setTargetPosition(distance);
+            BackRight.setTargetPosition(-distance);
+            FrontLeft.setTargetPosition(distance);
+            FrontRight.setTargetPosition(-distance);
+        } else if (direction == "Left") {
+            BackLeft.setTargetPosition(-distance);
+            BackRight.setTargetPosition(distance);
+            FrontLeft.setTargetPosition(-distance);
+            FrontRight.setTargetPosition(distance);
+        }
+
+        FrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        FrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        BackLeft.setPower(Speed);
+        BackRight.setPower(Speed);
+        FrontLeft.setPower(Speed);
+        FrontRight.setPower(Speed);
+
+        while (opMode.opModeIsActive() && BackLeft.isBusy() && BackRight.isBusy() && FrontLeft.isBusy() && FrontRight.isBusy())
+        {
+            if (testMode) {
+                telemetry.addData("bk-left-end", BackLeft.getCurrentPosition() + "," + BackLeft.getPower());
+                telemetry.addData("bk-right-end", BackRight.getCurrentPosition() + "," + BackRight.getPower());
+                telemetry.addData("fwd-left-end", FrontLeft.getCurrentPosition() + "," + FrontLeft.getPower());
+                telemetry.addData("fwd-right-end", FrontRight.getCurrentPosition() + "," + FrontRight.getPower());
+                telemetry.addData("bk-left-endBusy", BackLeft.isBusy());
+                telemetry.addData("bk-right-endBusy", BackRight.isBusy());
+                telemetry.addData("fwd-left-endBusy", FrontLeft.isBusy());
+                telemetry.addData("fwd-right-endBusy", FrontRight.isBusy());
+                telemetry.update();
             }
 
-            FrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            BackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            FrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            BackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            BackLeft.setPower(Speed);
-            BackRight.setPower(Speed);
-            FrontLeft.setPower(Speed);
-            FrontRight.setPower(Speed);
-
-            while (opMode.opModeIsActive() && BackLeft.isBusy() && BackRight.isBusy() && FrontLeft.isBusy() && FrontRight.isBusy())
+            if(!opMode.opModeIsActive())
             {
-                if (testMode) {
-                    telemetry.addData("bk-left-end", BackLeft.getCurrentPosition() + "," + BackLeft.getPower());
-                    telemetry.addData("bk-right-end", BackRight.getCurrentPosition() + "," + BackRight.getPower());
-                    telemetry.addData("fwd-left-end", FrontLeft.getCurrentPosition() + "," + FrontLeft.getPower());
-                    telemetry.addData("fwd-right-end", FrontRight.getCurrentPosition() + "," + FrontRight.getPower());
-                    telemetry.addData("bk-left-endBusy", BackLeft.isBusy());
-                    telemetry.addData("bk-right-endBusy", BackRight.isBusy());
-                    telemetry.addData("fwd-left-endBusy", FrontLeft.isBusy());
-                    telemetry.addData("fwd-right-endBusy", FrontRight.isBusy());
-                    telemetry.update();
-                }
-
-                if(!opMode.opModeIsActive())
-                {
-                    return;
-                }
-
-                opMode.idle();
+                return;
             }
 
-            BackLeft.setPower(0);
-            BackRight.setPower(0);
-            FrontLeft.setPower(0);
-            FrontRight.setPower(0);
-
+            opMode.idle();
         }
 
-        public static void driveUntilDistance(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, double distance, double Speed, boolean testMode) {
-            // 10in = 600
-            // 1in = 60
+        BackLeft.setPower(0);
+        BackRight.setPower(0);
+        FrontLeft.setPower(0);
+        FrontRight.setPower(0);
 
-            final double unitsPerInch = 60;
+    }
 
-            final double tolerance = 1.5;
+    public static void driveUntilDistance(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, double distance, double maxDistance, double Speed, boolean testMode) {
+        if(!opMode.opModeIsActive())
+        {
+            return;
+        }
 
-            double distanceLeft = Distance.GetDistanceLeft(opMode, hardwareMap, telemetry);
-            double distanceRight = Distance.GetDistanceRight(opMode, hardwareMap, telemetry);
+        // 10in = 600
+        // 1in = 60
 
-            DcMotor BackLeft;
-            DcMotor BackRight;
-            DcMotor FrontLeft;
-            DcMotor FrontRight;
+        final double unitsPerInch = 60;
 
-            BackLeft = hardwareMap.get(DcMotor.class, "BackLeft");
-            BackRight = hardwareMap.get(DcMotor.class, "BackRight");
-            FrontLeft = hardwareMap.get(DcMotor.class, "FrontLeft");
-            FrontRight = hardwareMap.get(DcMotor.class, "FrontRight");
+        final double tolerance = 1.5;
 
-            BackLeft.setDirection(DcMotor.Direction.REVERSE);
-            BackRight.setDirection(DcMotor.Direction.FORWARD);
-            FrontLeft.setDirection(DcMotor.Direction.REVERSE);
-            FrontRight.setDirection(DcMotor.Direction.FORWARD);
+        //double distanceLeft = Distance.GetDistanceLeft(opMode, hardwareMap, telemetry);
+        double distanceCenter = maxDistance;
 
-            BackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            BackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            FrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            FrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        DcMotor BackLeft;
+        DcMotor BackRight;
+        DcMotor FrontLeft;
+        DcMotor FrontRight;
 
-            BackLeft.setTargetPosition((int)((distanceLeft - distance) * unitsPerInch));
-            BackRight.setTargetPosition((int)((distanceRight - distance) * unitsPerInch));
-            FrontLeft.setTargetPosition((int)((distanceLeft - distance) * unitsPerInch));
-            FrontRight.setTargetPosition((int)((distanceRight - distance) * unitsPerInch));
+        BackLeft = hardwareMap.get(DcMotor.class, "BackLeft");
+        BackRight = hardwareMap.get(DcMotor.class, "BackRight");
+        FrontLeft = hardwareMap.get(DcMotor.class, "FrontLeft");
+        FrontRight = hardwareMap.get(DcMotor.class, "FrontRight");
 
-            BackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            BackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            FrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            FrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BackLeft.setDirection(DcMotor.Direction.REVERSE);
+        BackRight.setDirection(DcMotor.Direction.FORWARD);
+        FrontLeft.setDirection(DcMotor.Direction.REVERSE);
+        FrontRight.setDirection(DcMotor.Direction.FORWARD);
+
+        BackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        FrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        FrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        /*
+        BackLeft.setTargetPosition((int)((distanceLeft - distance) * unitsPerInch));
+        BackRight.setTargetPosition((int)((distanceCenter - distance) * unitsPerInch));
+        FrontLeft.setTargetPosition((int)((distanceLeft - distance) * unitsPerInch));
+        FrontRight.setTargetPosition((int)((distanceCenter - distance) * unitsPerInch));
+        */
+
+        BackLeft.setTargetPosition((int)(maxDistance * unitsPerInch));
+        BackRight.setTargetPosition((int)(maxDistance * unitsPerInch));
+        FrontLeft.setTargetPosition((int)(maxDistance * unitsPerInch));
+        FrontRight.setTargetPosition((int)(maxDistance * unitsPerInch));
+
+
+        BackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        FrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        FrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        BackLeft.setPower(Speed);
+        BackRight.setPower(Speed);
+        FrontLeft.setPower(Speed);
+        FrontRight.setPower(Speed);
+
+        DcMotor[] WHEELS = new DcMotor[4];
+        WHEELS[0] = BackLeft;
+        WHEELS[1] = BackRight;
+        WHEELS[2] = FrontLeft;
+        WHEELS[3] = FrontRight;
+
+        while (opMode.opModeIsActive() && distanceCenter > distance) {
+
+            distanceCenter = Distance.GetDistanceRight(opMode, hardwareMap, telemetry);
 
             BackLeft.setPower(Speed);
-            BackRight.setPower(Speed);
             FrontLeft.setPower(Speed);
+            BackRight.setPower(Speed);
             FrontRight.setPower(Speed);
 
-            DcMotor[] WHEELS = new DcMotor[4];
-            WHEELS[0] = BackLeft;
-            WHEELS[1] = BackRight;
-            WHEELS[2] = FrontLeft;
-            WHEELS[3] = FrontRight;
+            if (testMode)
+            {
+                telemetry.addLine("Wheels:");
+                telemetry.addData("bk-left-end", BackLeft.getCurrentPosition() + "," + BackLeft.getPower());
+                telemetry.addData("bk-right-end", BackRight.getCurrentPosition() + "," + BackRight.getPower());
+                telemetry.addData("fwd-left-end", FrontLeft.getCurrentPosition() + "," + FrontLeft.getPower());
+                telemetry.addData("fwd-right-end", FrontRight.getCurrentPosition() + "," + FrontRight.getPower());
+                telemetry.addData("bk-left-endBusy", BackLeft.isBusy());
+                telemetry.addData("bk-right-endBusy", BackRight.isBusy());
+                telemetry.addData("fwd-left-endBusy", FrontLeft.isBusy());
+                telemetry.addData("fwd-right-endBusy", FrontRight.isBusy());
 
-            boolean leftDone = false;
-            boolean rightDone = false;
+                telemetry.addLine("\nDistanceSensor:");
+                telemetry.addData("DistanceSensor", distanceCenter);
+                telemetry.addData("Distance", distance);
+                telemetry.addData("Is there", distanceCenter > distance);
 
-            while ((leftDone && rightDone) || opMode.opModeIsActive() && (BackLeft.isBusy() || BackRight.isBusy() || FrontLeft.isBusy() || FrontRight.isBusy())) {
+                telemetry.update();
+            }
 
-                // If either left wheels aren't busy then stop left wheels
-                if(!(BackLeft.isBusy() && FrontLeft.isBusy()) || ((distanceLeft - distance <= 0.2) && (distanceLeft - distance >= -0.2)))
-                {
-                    BackLeft.setPower(0);
-                    FrontLeft.setPower(0);
-                    leftDone = true;
-                }
 
-                // If either right wheels aren't busy then stop right wheels
-                if(!(BackRight.isBusy() && FrontRight.isBusy() || ((distanceRight - distance <= 0.2) && (distanceRight - distance >= -0.2))))
-                {
-                    BackRight.setPower(0);
-                    FrontRight.setPower(0);
-                    rightDone = true;
-                }
+            if(!opMode.opModeIsActive())
+            {
+                return;
+            }
 
-                if (testMode)
-                {
-                    distanceLeft = Distance.GetDistanceLeft(opMode, hardwareMap, telemetry);
-                    distanceRight = Distance.GetDistanceRight(opMode, hardwareMap, telemetry);
+            opMode.idle();
+        }
 
-                    telemetry.addLine("Wheels:");
-                    telemetry.addData("bk-left-end", BackLeft.getCurrentPosition() + "," + BackLeft.getPower());
-                    telemetry.addData("bk-right-end", BackRight.getCurrentPosition() + "," + BackRight.getPower());
-                    telemetry.addData("fwd-left-end", FrontLeft.getCurrentPosition() + "," + FrontLeft.getPower());
-                    telemetry.addData("fwd-right-end", FrontRight.getCurrentPosition() + "," + FrontRight.getPower());
-                    telemetry.addData("bk-left-endBusy", BackLeft.isBusy());
-                    telemetry.addData("bk-right-endBusy", BackRight.isBusy());
-                    telemetry.addData("fwd-left-endBusy", FrontLeft.isBusy());
-                    telemetry.addData("fwd-right-endBusy", FrontRight.isBusy());
+        BackLeft.setPower(0);
+        BackRight.setPower(0);
+        FrontLeft.setPower(0);
+        FrontRight.setPower(0);
 
-                    telemetry.addLine("\nDistanceSensor:");
-                    telemetry.addData("LeftDistanceSensor", distanceLeft);
-                    telemetry.addData("RightDistanceSensor", distanceRight);
+    }
 
-                    telemetry.addLine("\nDistanceLeftToGo:");
-                    telemetry.addData("LeftWheels", distanceLeft - ((BackLeft.getCurrentPosition() + FrontLeft.getCurrentPosition())/2));
-                    telemetry.addData("RightWheels", distanceRight - ((BackRight.getCurrentPosition() + FrontRight.getCurrentPosition())/2));
+    public static void hangSpec(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, double Speed, boolean testMode){
+        if(!opMode.opModeIsActive())
+        {
+            return;
+        }
 
-                    telemetry.update();
-                }
+        CRServo ClawArmServo;
+        ServoController ControlHub_ServoController;
 
+        ControlHub_ServoController = hardwareMap.get(ServoController.class, "Control Hub");
+        ClawArmServo = hardwareMap.get(CRServo.class, "ClawArmServo");
+
+        //Disable pwm
+        ControlHub_ServoController.pwmDisable();
+
+        ClawArmServo.setPower(1);
+
+//10.78
+        Functions.driveUntilDistance(opMode, hardwareMap, telemetry, 6, 47, Speed, testMode);
+        Functions.pause(0.25);
+
+        Functions.frontArmMove(opMode, hardwareMap, telemetry, 12, 0.25, "Front", testMode);
+        Functions.pause(1.25);
+        Functions.drive(opMode, hardwareMap, telemetry, -7.4, -7.4, Speed, -7.4, -7.4, testMode);
+        Functions.pause(0.25);
+
+        Functions.frontArmStop(opMode, hardwareMap, telemetry, testMode);
+        ClawArmServo.setPower(-1);
+        Functions.frontArmMove(opMode, hardwareMap, telemetry, -12, 0.25, "Back", testMode);
+        Functions.pause(2);
+        Functions.frontArmStop(opMode, hardwareMap, telemetry, testMode);
+        Functions.reset(opMode, hardwareMap, telemetry, testMode);
+        return;
+    }
+
+    public static void reset(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, boolean testMode) {
+        if (!opMode.opModeIsActive()) {
+            return;
+        }
+
+        DcMotor BackLeft;
+        DcMotor BackRight;
+        DcMotor FrontLeft;
+        DcMotor FrontRight;
+
+        BackLeft = hardwareMap.get(DcMotor.class, "BackLeft");
+        BackRight = hardwareMap.get(DcMotor.class, "BackRight");
+        FrontLeft = hardwareMap.get(DcMotor.class, "FrontLeft");
+        FrontRight = hardwareMap.get(DcMotor.class, "FrontRight");
+
+        BackLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        BackRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        FrontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        FrontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        BackLeft.setDirection(DcMotor.Direction.REVERSE);
+        BackRight.setDirection(DcMotor.Direction.FORWARD);
+        FrontLeft.setDirection(DcMotor.Direction.REVERSE);
+        FrontRight.setDirection(DcMotor.Direction.FORWARD);
+    }
+
+    /*
+    public static void driveUntilDistanceKiro(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, double distance, double Speed, boolean testMode) {
                 if(!opMode.opModeIsActive())
-                {
-                    return;
-                }
-
-                opMode.idle();
-            }
-
-            BackLeft.setPower(0);
-            BackRight.setPower(0);
-            FrontLeft.setPower(0);
-            FrontRight.setPower(0);
-
+        {
+            return;
         }
 
-        public static void driveUntilDistanceKiro(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, double distance, double Speed, boolean testMode) {
-            // 10in = 600
-            // 1in = 60
+        // 10in = 600
 
-            final double unitsPerInch = 60;
+        // 1in = 60
 
-            final double tolerance = 1.5;
+        final double unitsPerInch = 60;
 
-            double distanceLeft = Distance.GetDistanceLeft(opMode, hardwareMap, telemetry);
-            double distanceRight = Distance.GetDistanceRight(opMode, hardwareMap, telemetry);
+        final double tolerance = 1.5;
 
-            DcMotor BackLeft;
-            DcMotor BackRight;
-            DcMotor FrontLeft;
-            DcMotor FrontRight;
+        double distanceLeft = Distance.GetDistanceLeft(opMode, hardwareMap, telemetry);
+        double distanceCenter = Distance.GetDistanceRight(opMode, hardwareMap, telemetry);
 
-            BackLeft = hardwareMap.get(DcMotor.class, "BackLeft");
-            BackRight = hardwareMap.get(DcMotor.class, "BackRight");
-            FrontLeft = hardwareMap.get(DcMotor.class, "FrontLeft");
-            FrontRight = hardwareMap.get(DcMotor.class, "FrontRight");
+        DcMotor BackLeft;
+        DcMotor BackRight;
+        DcMotor FrontLeft;
+        DcMotor FrontRight;
 
-            BackLeft.setDirection(DcMotor.Direction.REVERSE);
-            BackRight.setDirection(DcMotor.Direction.FORWARD);
-            FrontLeft.setDirection(DcMotor.Direction.REVERSE);
-            FrontRight.setDirection(DcMotor.Direction.FORWARD);
+        BackLeft = hardwareMap.get(DcMotor.class, "BackLeft");
+        BackRight = hardwareMap.get(DcMotor.class, "BackRight");
+        FrontLeft = hardwareMap.get(DcMotor.class, "FrontLeft");
+        FrontRight = hardwareMap.get(DcMotor.class, "FrontRight");
 
-            BackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            BackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            FrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-            FrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BackLeft.setDirection(DcMotor.Direction.REVERSE);
+        BackRight.setDirection(DcMotor.Direction.FORWARD);
+        FrontLeft.setDirection(DcMotor.Direction.REVERSE);
+        FrontRight.setDirection(DcMotor.Direction.FORWARD);
 
-            BackLeft.setTargetPosition((int) ((distanceLeft - distance) * unitsPerInch));
-            BackRight.setTargetPosition((int) ((distanceRight - distance) * unitsPerInch));
-            FrontLeft.setTargetPosition((int) ((distanceLeft - distance) * unitsPerInch));
-            FrontRight.setTargetPosition((int) ((distanceRight - distance) * unitsPerInch));
+        BackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        FrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        FrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-            BackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            BackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            FrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            FrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BackLeft.setTargetPosition((int) ((distanceLeft - distance) * unitsPerInch));
+        BackRight.setTargetPosition((int) ((distanceCenter - distance) * unitsPerInch));
+        FrontLeft.setTargetPosition((int) ((distanceLeft - distance) * unitsPerInch));
+        FrontRight.setTargetPosition((int) ((distanceCenter - distance) * unitsPerInch));
 
-
-            DcMotor[] WHEELS = new DcMotor[4];
-            WHEELS[0] = BackLeft;
-            WHEELS[1] = BackRight;
-            WHEELS[2] = FrontLeft;
-            WHEELS[3] = FrontRight;
-
-            while (opMode.opModeIsActive() && (BackLeft.isBusy() || BackRight.isBusy() || FrontLeft.isBusy() || FrontRight.isBusy())) {
-
-                // If either left wheels aren't busy then stop left wheels
-                if (!(BackLeft.isBusy() && FrontLeft.isBusy())) {
-                    BackLeft.setPower(0);
-                    FrontLeft.setPower(0);
-                }
-
-                // If either right wheels aren't busy then stop right wheels
-                if (!(BackRight.isBusy() && FrontRight.isBusy())) {
-                    BackRight.setPower(0);
-                    FrontRight.setPower(0);
-                }
-
-                if (testMode) {
-                    distanceLeft = Distance.GetDistanceLeft(opMode, hardwareMap, telemetry);
-                    distanceRight = Distance.GetDistanceRight(opMode, hardwareMap, telemetry);
-                    ;
-
-                    telemetry.addLine("Wheels:");
-                    telemetry.addData("bk-left-end", BackLeft.getCurrentPosition() + "," + BackLeft.getPower());
-                    telemetry.addData("bk-right-end", BackRight.getCurrentPosition() + "," + BackRight.getPower());
-                    telemetry.addData("fwd-left-end", FrontLeft.getCurrentPosition() + "," + FrontLeft.getPower());
-                    telemetry.addData("fwd-right-end", FrontRight.getCurrentPosition() + "," + FrontRight.getPower());
-                    telemetry.addData("bk-left-endBusy", BackLeft.isBusy());
-                    telemetry.addData("bk-right-endBusy", BackRight.isBusy());
-                    telemetry.addData("fwd-left-endBusy", FrontLeft.isBusy());
-                    telemetry.addData("fwd-right-endBusy", FrontRight.isBusy());
-
-                    telemetry.addLine("\nDistanceSensor:");
-                    telemetry.addData("LeftDistanceSensor", distanceLeft);
-                    telemetry.addData("RightDistanceSensor", distanceRight);
-
-                    telemetry.addLine("\nDistanceLeftToGo:");
-                    telemetry.addData("LeftWheels", distanceLeft - ((BackLeft.getCurrentPosition() + FrontLeft.getCurrentPosition()) / 2));
-                    telemetry.addData("RightWheels", distanceRight - ((BackRight.getCurrentPosition() + FrontRight.getCurrentPosition()) / 2));
-
-                    while (distanceRight > 7.1) {
-                        BackLeft.setPower(1.0);
-                        FrontLeft.setPower(1.0);
-                        BackRight.setPower(1.0);
-                        FrontRight.setPower(1.0);
-
-                    }
+        BackLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        BackRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        FrontLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        FrontRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
 
-                    telemetry.update();
-                }
+        DcMotor[] WHEELS = new DcMotor[4];
+        WHEELS[0] = BackLeft;
+        WHEELS[1] = BackRight;
+        WHEELS[2] = FrontLeft;
+        WHEELS[3] = FrontRight;
 
-                if (!opMode.opModeIsActive()) {
-                    return;
-                }
+        while (opMode.opModeIsActive() && (BackLeft.isBusy() || BackRight.isBusy() || FrontLeft.isBusy() || FrontRight.isBusy())) {
 
-                opMode.idle();
+            // If either left wheels aren't busy then stop left wheels
+            if (!(BackLeft.isBusy() && FrontLeft.isBusy())) {
+                BackLeft.setPower(0);
+                FrontLeft.setPower(0);
             }
 
-            BackLeft.setPower(0);
-            BackRight.setPower(0);
-            FrontLeft.setPower(0);
-            FrontRight.setPower(0);
+            // If either right wheels aren't busy then stop right wheels
+            if (!(BackRight.isBusy() && FrontRight.isBusy())) {
+                BackRight.setPower(0);
+                FrontRight.setPower(0);
+            }
 
+            if (testMode) {
+                distanceLeft = Distance.GetDistanceLeft(opMode, hardwareMap, telemetry);
+                distanceCenter = Distance.GetDistanceRight(opMode, hardwareMap, telemetry);
+                ;
+
+                telemetry.addLine("Wheels:");
+                telemetry.addData("bk-left-end", BackLeft.getCurrentPosition() + "," + BackLeft.getPower());
+                telemetry.addData("bk-right-end", BackRight.getCurrentPosition() + "," + BackRight.getPower());
+                telemetry.addData("fwd-left-end", FrontLeft.getCurrentPosition() + "," + FrontLeft.getPower());
+                telemetry.addData("fwd-right-end", FrontRight.getCurrentPosition() + "," + FrontRight.getPower());
+                telemetry.addData("bk-left-endBusy", BackLeft.isBusy());
+                telemetry.addData("bk-right-endBusy", BackRight.isBusy());
+                telemetry.addData("fwd-left-endBusy", FrontLeft.isBusy());
+                telemetry.addData("fwd-right-endBusy", FrontRight.isBusy());
+
+                telemetry.addLine("\nDistanceSensor:");
+                telemetry.addData("LeftDistanceSensor", distanceLeft);
+                telemetry.addData("RightDistanceSensor", distanceCenter);
+
+                telemetry.addLine("\nDistanceLeftToGo:");
+                telemetry.addData("LeftWheels", distanceLeft - ((BackLeft.getCurrentPosition() + FrontLeft.getCurrentPosition()) / 2));
+                telemetry.addData("RightWheels", distanceCenter - ((BackRight.getCurrentPosition() + FrontRight.getCurrentPosition()) / 2));
+
+                while (distanceCenter > distance) {
+                    BackLeft.setPower(1.0);
+                    FrontLeft.setPower(1.0);
+                    BackRight.setPower(1.0);
+                    FrontRight.setPower(1.0);
+
+                }
+
+
+                telemetry.update();
+            }
+
+            if (!opMode.opModeIsActive()) {
+                return;
+            }
+
+            opMode.idle();
         }
+
+        BackLeft.setPower(0);
+        BackRight.setPower(0);
+        FrontLeft.setPower(0);
+        FrontRight.setPower(0);
+
+    }
 
 
 /*
@@ -799,4 +917,4 @@
         }
 
  */
-    }
+}

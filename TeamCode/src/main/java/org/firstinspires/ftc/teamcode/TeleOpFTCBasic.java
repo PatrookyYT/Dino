@@ -63,7 +63,9 @@ public class TeleOpFTCBasic extends LinearOpMode {
         waitForStart();
         if (opModeIsActive()) {
             BackLeft.setDirection(DcMotor.Direction.REVERSE);
-            BackRight.setDirection(DcMotor.Direction.REVERSE);
+            BackRight.setDirection(DcMotor.Direction.FORWARD);
+            FrontLeft.setDirection(DcMotor.Direction.REVERSE);
+            FrontRight.setDirection(DcMotor.Direction.FORWARD);
             FrontArmMotor.setDirection(DcMotor.Direction.REVERSE);
 
             FrontArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -160,6 +162,7 @@ public class TeleOpFTCBasic extends LinearOpMode {
                 }
 
                 if (gamepad1.y) {
+                    Functions.hangSpec(this, hardwareMap, telemetry, 0.2, testMode);
                 } else if (gamepad1.b) {
                 } else if (gamepad1.x) {
                 } else if (gamepad1.a) {

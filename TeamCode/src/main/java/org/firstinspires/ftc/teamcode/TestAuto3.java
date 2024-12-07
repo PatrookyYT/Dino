@@ -96,14 +96,14 @@ public class TestAuto3 extends LinearOpMode {
             // 16in = 1000
 
             Functions.driveDirect(this, hardwareMap, telemetry, 80, 0.65, testMode);
-            Functions.pause(2);
+            Functions.pause(2, this);
             Functions.driveDirect(this, hardwareMap, telemetry, -80, 0.65, testMode);
-            Functions.pause(2);
+            Functions.pause(2, this);
 
             Functions.drive(this, hardwareMap, telemetry, 80, 80, 0.65, 80, 80, testMode);
-            Functions.pause(2);
+            Functions.pause(2, this);
             Functions.drive(this, hardwareMap, telemetry, -80, -80, 0.65, -80, -80, testMode);
-            Functions.pause(2);
+            Functions.pause(2, this);
 
         }
 
@@ -111,13 +111,13 @@ public class TestAuto3 extends LinearOpMode {
         {
             //IMU.getRobotYawPitchRollAngles;
             Functions.turn(this, hardwareMap, telemetry, "Left", 0.5, testMode);
-            Functions.pause(2);
+            Functions.pause(2, this);
             Functions.turn(this, hardwareMap, telemetry, "Left", 0.5, testMode);
-            Functions.pause(2);
+            Functions.pause(2, this);
             Functions.turn(this, hardwareMap, telemetry, "Right", 0.5, testMode);
-            Functions.pause(2);
+            Functions.pause(2, this);
             Functions.turn(this, hardwareMap, telemetry, "Left", 0.5, testMode);
-            Functions.pause(2);
+            Functions.pause(2, this);
 
         }
 
@@ -129,7 +129,7 @@ public class TestAuto3 extends LinearOpMode {
 
         if (distanceTest) {
             //Functions.driveUntilDistanceKiro(this, hardwareMap, telemetry, 0.6, 0.05, testMode);
-            Functions.pause(2);
+            Functions.pause(2, this);
 
         }
     }

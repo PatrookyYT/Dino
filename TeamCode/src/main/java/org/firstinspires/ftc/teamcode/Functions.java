@@ -12,10 +12,14 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
 public class Functions {
 
-    public static void pause(double waitTime) {
+    public static void pause(double waitTime, com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode) {
         ElapsedTime elapsedTime = new ElapsedTime();
 
         while (elapsedTime.seconds() < waitTime) {
+            if(!opMode.opModeIsActive())
+            {
+                return;
+            }
             //STOP, wait a minute
         }
     }
@@ -572,7 +576,7 @@ public class Functions {
 
     }
 
-    public static void hangSpec(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, double Speed, boolean testMode){
+    public static void hangSpec1(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, double Speed, boolean testMode){
         if(!opMode.opModeIsActive())
         {
             return;
@@ -587,22 +591,84 @@ public class Functions {
         //Disable pwm
         ControlHub_ServoController.pwmDisable();
 
-        ClawArmServo.setPower(1);
+        ClawArmServo.setPower(0);
 
 //10.78
-        Functions.driveUntilDistance(opMode, hardwareMap, telemetry, 6, 47, Speed, testMode);
-        Functions.pause(0.25);
+        Functions.driveUntilDistance(opMode, hardwareMap, telemetry, 10.8, 47, Speed, testMode);
+        Functions.pause(0.25, opMode);
 
-        Functions.frontArmMove(opMode, hardwareMap, telemetry, 12, 0.25, "Front", testMode);
-        Functions.pause(1.25);
+        Functions.frontArmMove(opMode, hardwareMap, telemetry, 12, 0.2, "Front", testMode);
+        Functions.pause(1.75, opMode);
         Functions.drive(opMode, hardwareMap, telemetry, -7.4, -7.4, Speed, -7.4, -7.4, testMode);
-        Functions.pause(0.25);
+        Functions.frontArmStop(opMode, hardwareMap, telemetry, testMode);
+        Functions.pause(0.25, opMode);
 
         Functions.frontArmStop(opMode, hardwareMap, telemetry, testMode);
         ClawArmServo.setPower(-1);
         Functions.frontArmMove(opMode, hardwareMap, telemetry, -12, 0.25, "Back", testMode);
-        Functions.pause(2);
+        Functions.pause(2, opMode);
         Functions.frontArmStop(opMode, hardwareMap, telemetry, testMode);
+        Functions.reset(opMode, hardwareMap, telemetry, testMode);
+        return;
+    }
+
+    public static void hangSpec2(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, double Speed, boolean testMode){
+        if(!opMode.opModeIsActive())
+        {
+            return;
+        }
+
+        CRServo ClawArmServo;
+        ServoController ControlHub_ServoController;
+
+        ControlHub_ServoController = hardwareMap.get(ServoController.class, "Control Hub");
+        ClawArmServo = hardwareMap.get(CRServo.class, "ClawArmServo");
+
+        //Disable pwm
+        ControlHub_ServoController.pwmDisable();
+
+        ClawArmServo.setPower(0);
+
+//10.78
+        Functions.driveUntilDistance(opMode, hardwareMap, telemetry, 10.8, 47, Speed, testMode);
+        Functions.pause(0.25, opMode);
+
+        Functions.frontArmMove(opMode, hardwareMap, telemetry, 12, 0.2, "Front", testMode);
+        Functions.pause(1.25, opMode);
+        Functions.drive(opMode, hardwareMap, telemetry, -7.4, -7.4, Speed, -7.4, -7.4, testMode);
+        Functions.frontArmStop(opMode, hardwareMap, telemetry, testMode);
+        Functions.pause(0.25, opMode);
+
+        Functions.frontArmStop(opMode, hardwareMap, telemetry, testMode);
+        ClawArmServo.setPower(-1);
+        Functions.frontArmMove(opMode, hardwareMap, telemetry, -12, 0.25, "Back", testMode);
+        Functions.pause(2, opMode);
+        Functions.frontArmStop(opMode, hardwareMap, telemetry, testMode);
+        Functions.reset(opMode, hardwareMap, telemetry, testMode);
+        return;
+    }
+
+    public static void specDistance(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, double Speed, boolean testMode){
+        if(!opMode.opModeIsActive())
+        {
+            return;
+        }
+
+        CRServo ClawArmServo;
+        ServoController ControlHub_ServoController;
+
+        ControlHub_ServoController = hardwareMap.get(ServoController.class, "Control Hub");
+        ClawArmServo = hardwareMap.get(CRServo.class, "ClawArmServo");
+
+        //Disable pwm
+        ControlHub_ServoController.pwmDisable();
+
+        ClawArmServo.setPower(0);
+
+//10.78
+        Functions.driveUntilDistance(opMode, hardwareMap, telemetry, 11, 47, Speed, testMode);
+        Functions.pause(0.25, opMode);
+
         Functions.reset(opMode, hardwareMap, telemetry, testMode);
         return;
     }
@@ -628,8 +694,8 @@ public class Functions {
         FrontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         BackLeft.setDirection(DcMotor.Direction.REVERSE);
-        BackRight.setDirection(DcMotor.Direction.FORWARD);
-        FrontLeft.setDirection(DcMotor.Direction.REVERSE);
+        BackRight.setDirection(DcMotor.Direction.REVERSE);
+        FrontLeft.setDirection(DcMotor.Direction.FORWARD);
         FrontRight.setDirection(DcMotor.Direction.FORWARD);
     }
 

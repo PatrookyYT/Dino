@@ -105,14 +105,14 @@
                 // 16in = 1000
 
                 Functions.driveDirect(this, hardwareMap, telemetry, 80, 0.65, testMode);
-                Functions.pause(2);
+                Functions.pause(2, this);
                 Functions.driveDirect(this, hardwareMap, telemetry, -80, 0.65, testMode);
-                Functions.pause(2);
+                Functions.pause(2, this);
 
                 Functions.drive(this, hardwareMap, telemetry, 80, 80, 0.65, 80, 80, testMode);
-                Functions.pause(2);
+                Functions.pause(2, this);
                 Functions.drive(this, hardwareMap, telemetry, -80, -80, 0.65, -80, -80, testMode);
-                Functions.pause(2);
+                Functions.pause(2, this);
 
             }
 
@@ -120,13 +120,13 @@
             {
                 //IMU.getRobotYawPitchRollAngles;
                 Functions.turn(this, hardwareMap, telemetry, "Left", 0.5, testMode);
-                Functions.pause(2);
+                Functions.pause(2, this);
                 Functions.turn(this, hardwareMap, telemetry, "Left", 0.5, testMode);
-                Functions.pause(2);
+                Functions.pause(2, this);
                 Functions.turn(this, hardwareMap, telemetry, "Right", 0.5, testMode);
-                Functions.pause(2);
+                Functions.pause(2, this);
                 Functions.turn(this, hardwareMap, telemetry, "Left", 0.5, testMode);
-                Functions.pause(2);
+                Functions.pause(2, this);
 
             }
 
@@ -138,27 +138,27 @@
 
             if (distanceTestR) {
                 Functions.driveUntilDistance(this, hardwareMap, telemetry, 7,47, 0.05, testMode);
-                Functions.pause(2);
+                Functions.pause(2, this);
                 Functions.driveUntilDistance(this, hardwareMap, telemetry, 12, 47,0.05, testMode);
             }
 
             if(clawTest) {
                 ClawArmServo.setPower(1);
-                Functions.pause(2);
+                Functions.pause(2, this);
                 ClawArmServo.setPower(0);
-                Functions.pause(2);
+                Functions.pause(2, this);
             }
 
             if(armTest) {
                 Functions.frontArmMove(this, hardwareMap, telemetry, 14, 0.25, "Front", testMode);
-                Functions.pause(1.5);
+                Functions.pause(1.5, this);
                 Functions.frontArmStop(this, hardwareMap, telemetry, testMode);
-                Functions.pause(1.5);
+                Functions.pause(1.5, this);
 
                 Functions.frontArmMove(this, hardwareMap, telemetry, -14, 0.25, "Front", testMode);
-                Functions.pause(1.5);
+                Functions.pause(1.5, this);
                 Functions.frontArmStop(this, hardwareMap, telemetry, testMode);
-                Functions.pause(1.5);
+                Functions.pause(1.5, this);
             }
 
             if(getDistanceTest) {

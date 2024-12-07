@@ -59,31 +59,31 @@ public class ITDAutoLeft5 extends LinearOpMode {
 
             //Fix Strafe
             Functions.drive(this, hardwareMap, telemetry, -8, 8, 0.4, 8, -8, testMode);
-            Functions.pause(0.25);
+            Functions.pause(0.25, this);
 
             Functions.drive(this, hardwareMap, telemetry, -20, -20, 0.4, -20, -20, testMode);
-            Functions.pause(0.25);
+            Functions.pause(0.25, this);
 
             Functions.turn(this, hardwareMap, telemetry, "Right", 0.4, testMode);
-            Functions.pause(0.25);
+            Functions.pause(0.25, this);
 //10.78
             Functions.driveUntilDistance(this, hardwareMap, telemetry, 6.7,47, 0.05, testMode);
-            Functions.pause(0.25);
+            Functions.pause(0.25, this);
             Functions.driveUntilDistance(this, hardwareMap, telemetry, 6.7,47, 0.05, testMode);
-            Functions.pause(0.25);
+            Functions.pause(0.25, this);
 
             Functions.frontArmMove(this, hardwareMap, telemetry, 12, 0.175, "Front", testMode);
-            Functions.pause(0.25);
+            Functions.pause(0.25, this);
 
             ClawArmServo.setPower(0);
             Functions.drive(this, hardwareMap, telemetry, -3, -3, 0.2, -3, -3, testMode);
-            Functions.pause(0.25);
+            Functions.pause(0.25, this);
 
             Functions.drive(this, hardwareMap, telemetry, -11, -11, 0.4, -11, -11, testMode);
-            Functions.pause(0.25);
+            Functions.pause(0.25, this);
 
             Functions.drive(this, hardwareMap, telemetry, -65, 65, 0.4, 65, -65, testMode);
-            Functions.pause(0.25);
+            Functions.pause(0.25, this);
         }
     }
 

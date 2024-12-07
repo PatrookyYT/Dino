@@ -63,10 +63,16 @@ public class TeleOpFTCBasic extends LinearOpMode {
         waitForStart();
         if (opModeIsActive()) {
             BackLeft.setDirection(DcMotor.Direction.REVERSE);
-            BackRight.setDirection(DcMotor.Direction.FORWARD);
-            FrontLeft.setDirection(DcMotor.Direction.REVERSE);
+            BackRight.setDirection(DcMotor.Direction.REVERSE);
+            FrontLeft.setDirection(DcMotor.Direction.FORWARD);
             FrontRight.setDirection(DcMotor.Direction.FORWARD);
             FrontArmMotor.setDirection(DcMotor.Direction.REVERSE);
+
+            BackLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            BackRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            FrontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            FrontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            FrontArmMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
             FrontArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             while (opModeIsActive()) {
@@ -162,8 +168,10 @@ public class TeleOpFTCBasic extends LinearOpMode {
                 }
 
                 if (gamepad1.y) {
-                    Functions.hangSpec(this, hardwareMap, telemetry, 0.2, testMode);
+                    ClawArmServo.setPower(-0.5);
+                    Functions.specDistance(this, hardwareMap, telemetry, 0.2, testMode);
                 } else if (gamepad1.b) {
+                    Functions.reset(this, hardwareMap, telemetry, testMode);
                 } else if (gamepad1.x) {
                 } else if (gamepad1.a) {
                 }

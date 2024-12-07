@@ -44,7 +44,7 @@
                 // Drive to pixel
                 //Fix Strafe
                 Functions.drive(this, hardwareMap, telemetry, 2, 2, 0.65, 2, 2, testMode);
-                Functions.pause(0.25);
+                Functions.pause(0.25, this);
 
                 Functions.drive(this, hardwareMap, telemetry, -57, 57, 0.8, 57, -57, testMode);
             }

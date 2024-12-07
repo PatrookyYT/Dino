@@ -44,26 +44,26 @@
                 // Drive to pixel
                 //Fix Strafe
                 Functions.drive(this, hardwareMap, telemetry, -0.5, 0.5, 0.65, 0.5, -0.5, testMode);
-                Functions.pause(0.25);
+                Functions.pause(0.25, this);
 
                 //Drive forward
                 Functions.driveDirect(this, hardwareMap, telemetry, 40, 0.65, testMode);
-                Functions.pause(0.25);
+                Functions.pause(0.25, this);
 
                 //go back
                 Functions.driveDirect(this, hardwareMap, telemetry, -16, 0.65, testMode);
-                Functions.pause(0.25);
+                Functions.pause(0.25, this);
 
                 //strafe to 1
                 Functions.drive(this, hardwareMap, telemetry, -55, 55, 0.65, 55, -55, testMode);
 
                 //drive forward
                 Functions.driveDirect(this, hardwareMap, telemetry, 12, 0.6, testMode);
-                Functions.pause(0.25);
+                Functions.pause(0.25, this);
 
                 //Turn
                 Functions.turn(this, hardwareMap, telemetry, "Left", 0.5, testMode);
-                Functions.pause(0.25);
+                Functions.pause(0.25, this);
 
                 //go Go front
                 Functions.driveDirect(this, hardwareMap, telemetry, 48, 0.6,testMode);

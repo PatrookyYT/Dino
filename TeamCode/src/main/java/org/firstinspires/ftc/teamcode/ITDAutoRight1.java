@@ -68,7 +68,7 @@ public class ITDAutoRight1 extends LinearOpMode {
 
 
             Functions.frontArmStop(this, hardwareMap, telemetry, testMode);
-            Functions.frontArmMove(this, hardwareMap, telemetry, 7, 0.25, "Front", testMode);
+            Functions.frontArmMove(this, hardwareMap, telemetry, 14, 0.25, "Front", testMode);
             ClawArmServo.setPower(-1);
             Functions.turn(this, hardwareMap, telemetry, "Right", 0.4, testMode);
             Functions.pause(0.25, this);
@@ -85,8 +85,8 @@ public class ITDAutoRight1 extends LinearOpMode {
             //Functions.driveUntilDistance(this, hardwareMap, telemetry, 10.4, 23, 0.35, testMode);
 
             Functions.frontArmStop(this, hardwareMap, telemetry, testMode);
-            Functions.frontArmMove(this, hardwareMap, telemetry, 12, 0.2, "Front", testMode);
-            Functions.pause(1.25, this);
+            Functions.frontArmMove(this, hardwareMap, telemetry, 14, 0.2, "Front", testMode);
+            Functions.pause(0.75, this);
 
             Functions.frontArmStop(this, hardwareMap, telemetry, testMode);
             ClawArmServo.setPower(1);

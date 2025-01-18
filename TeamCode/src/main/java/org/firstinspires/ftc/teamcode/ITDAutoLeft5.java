@@ -72,7 +72,7 @@ public class ITDAutoLeft5 extends LinearOpMode {
             Functions.driveUntilDistance(this, hardwareMap, telemetry, 6.7,47, 0.05, testMode);
             Functions.pause(0.25, this);
 
-            Functions.frontArmMove(this, hardwareMap, telemetry, 12, 0.175, "Front", testMode);
+            //Functions.frontArmMove(this, hardwareMap, telemetry, 12, 0.175, "Front", testMode);
             Functions.pause(0.25, this);
 
             ClawArmServo.setPower(0);

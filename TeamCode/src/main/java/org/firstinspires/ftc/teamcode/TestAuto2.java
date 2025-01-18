@@ -150,14 +150,14 @@
             }
 
             if(armTest) {
-                Functions.frontArmMove(this, hardwareMap, telemetry, 14, 0.25, "Front", testMode);
+                //Functions.frontArmMove(this, hardwareMap, telemetry, 14, 0.25, "Front", testMode);
                 Functions.pause(1.5, this);
-                Functions.frontArmStop(this, hardwareMap, telemetry, testMode);
+                //Functions.frontArmStop(this, hardwareMap, telemetry, testMode);
                 Functions.pause(1.5, this);
 
-                Functions.frontArmMove(this, hardwareMap, telemetry, -14, 0.25, "Front", testMode);
+                //Functions.frontArmMove(this, hardwareMap, telemetry, -14, 0.25, "Front", testMode);
                 Functions.pause(1.5, this);
-                Functions.frontArmStop(this, hardwareMap, telemetry, testMode);
+                //Functions.frontArmStop(this, hardwareMap, telemetry, testMode);
                 Functions.pause(1.5, this);
             }
 

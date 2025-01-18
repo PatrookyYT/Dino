@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.qualcomm.robotcore.hardware.ServoController;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -264,29 +265,45 @@ public class Functions {
 
         final double unitsPerInch = 60;
 
-        DcMotor ViperSlideMotor;
+        DcMotor ViperSlideMotorLeft;
+        DcMotor ViperSlideMotorRight;
 
-        ViperSlideMotor = hardwareMap.get(DcMotor.class, "ViperSlideMotor");
+        ViperSlideMotorLeft = hardwareMap.get(DcMotor.class, "ViperSlideMotorLeft");
+        ViperSlideMotorRight = hardwareMap.get(DcMotor.class, "ViperSlideMotorRight");
 
-        ViperSlideMotor.setDirection(DcMotor.Direction.REVERSE);
+        ViperSlideMotorLeft.setDirection(DcMotor.Direction.FORWARD);
+        ViperSlideMotorRight.setDirection(DcMotor.Direction.FORWARD);
 
-        ViperSlideMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        ViperSlideMotorLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        ViperSlideMotorRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        ViperSlideMotor.setTargetPosition((int)(Arm_target * unitsPerInch));
+        ViperSlideMotorLeft.setTargetPosition((int)(Arm_target * unitsPerInch));
+        ViperSlideMotorRight.setTargetPosition((int)(Arm_target * unitsPerInch));
 
-        ViperSlideMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        ViperSlideMotorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        ViperSlideMotorRight.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        ViperSlideMotor.setPower(Speed);
+        ViperSlideMotorLeft.setPower(0);
+        ViperSlideMotorRight.setPower(Speed);
 
-        while (opMode.opModeIsActive() && ViperSlideMotor.isBusy()) {
+        while (opMode.opModeIsActive() && ViperSlideMotorLeft.isBusy() && ViperSlideMotorRight.isBusy()) {
             if (testMode)
             {
-                telemetry.addData("ArmMotor", ViperSlideMotor.getCurrentPosition() + "," + ViperSlideMotor.getPower());
-                telemetry.addData("Speed", ViperSlideMotor.getPower());
-                telemetry.addData("Avg", ViperSlideMotor.getCurrentPosition());
+                telemetry.addLine("LeftArm");
+                telemetry.addData("ArmMotor", ViperSlideMotorLeft.getCurrentPosition() + "," + ViperSlideMotorLeft.getPower());
+                telemetry.addData("Speed", ViperSlideMotorLeft.getPower());
+                telemetry.addData("Avg", ViperSlideMotorLeft.getCurrentPosition());
                 telemetry.addData("Target", Arm_target);
-                telemetry.addData("%", (ViperSlideMotor.getCurrentPosition() / (Arm_target * unitsPerInch)));
-                telemetry.addData("ArmMotorBusy", ViperSlideMotor.isBusy());
+                telemetry.addData("%", (ViperSlideMotorLeft.getCurrentPosition() / (Arm_target * unitsPerInch)));
+                telemetry.addData("ArmMotorBusy", ViperSlideMotorLeft.isBusy());
+
+                telemetry.addLine("RightArm");
+                telemetry.addData("RightArmMotor", ViperSlideMotorRight.getCurrentPosition() + "," + ViperSlideMotorRight.getPower());
+                telemetry.addData("Speed", ViperSlideMotorRight.getPower());
+                telemetry.addData("Avg", ViperSlideMotorRight.getCurrentPosition());
+                telemetry.addData("Target", Arm_target);
+                telemetry.addData("%", (ViperSlideMotorRight.getCurrentPosition() / (Arm_target * unitsPerInch)));
+                telemetry.addData("ArmMotorBusy", ViperSlideMotorRight.isBusy());
                 telemetry.update();
             }
 
@@ -298,10 +315,12 @@ public class Functions {
             opMode.idle();
         }
 
-        ViperSlideMotor.setPower(0);
+        ViperSlideMotorLeft.setPower(0);
+        ViperSlideMotorRight.setPower(0);
         return;
     }
 
+/*
     public static void frontArmMove(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, double Arm_target, double Speed, String endPosition, boolean testMode) {
         if(!opMode.opModeIsActive())
         {
@@ -318,6 +337,8 @@ public class Functions {
         FrontArmMotor = hardwareMap.get(DcMotor.class, "FrontArmMotor");
 
         FrontArmMotor.setDirection(DcMotor.Direction.REVERSE);
+
+        FrontArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         FrontArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
@@ -353,7 +374,7 @@ public class Functions {
                 FrontArmMotor.setPower(-0.05);
             } else {
                 FrontArmMotor.setPower(0);
-            } */
+            }
 
         //FrontArmMotor.setPower(0);
         return;
@@ -376,6 +397,8 @@ public class Functions {
 
         FrontArmMotor.setDirection(DcMotor.Direction.REVERSE);
 
+        FrontArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         FrontArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         FrontArmMotor.setTargetPosition((int)(1));
@@ -384,6 +407,28 @@ public class Functions {
 
         FrontArmMotor.setPower(0);
         return;
+    }
+*/
+
+    public static void frontArmMove(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, double Arm_target, boolean testMode) {
+        if (!opMode.opModeIsActive()) {
+            return;
+        }
+        CRServo LeftServo;
+        CRServo RightServo;
+
+        ServoController ControlHub_ServoController;
+
+        ControlHub_ServoController = hardwareMap.get(ServoController.class, "Control Hub");
+        LeftServo = hardwareMap.get(CRServo.class, "LeftArmServo");
+        RightServo = hardwareMap.get(CRServo.class, "RightArmServo");
+
+
+        //Disable pwm
+        ControlHub_ServoController.pwmDisable();
+
+        LeftServo.setPower(Arm_target);
+        RightServo.setPower(-Arm_target);
     }
 
 
@@ -531,7 +576,7 @@ public class Functions {
         WHEELS[2] = FrontLeft;
         WHEELS[3] = FrontRight;
 
-        while (opMode.opModeIsActive() && distanceCenter > distance) {
+        while (opMode.opModeIsActive() && (distanceCenter > distance)) {
 
             distanceCenter = Distance.GetDistanceRight(opMode, hardwareMap, telemetry);
 
@@ -591,23 +636,23 @@ public class Functions {
         //Disable pwm
         ControlHub_ServoController.pwmDisable();
 
-        ClawArmServo.setPower(0);
+        ClawArmServo.setPower(1);
 
 //10.78
-        Functions.driveUntilDistance(opMode, hardwareMap, telemetry, 10.8, 47, Speed, testMode);
+        Functions.driveUntilDistance(opMode, hardwareMap, telemetry, 11.1, 47, Speed, testMode);
         Functions.pause(0.25, opMode);
 
-        Functions.frontArmMove(opMode, hardwareMap, telemetry, 12, 0.2, "Front", testMode);
-        Functions.pause(1.75, opMode);
-        Functions.drive(opMode, hardwareMap, telemetry, -7.4, -7.4, Speed, -7.4, -7.4, testMode);
-        Functions.frontArmStop(opMode, hardwareMap, telemetry, testMode);
-        Functions.pause(0.25, opMode);
-
-        Functions.frontArmStop(opMode, hardwareMap, telemetry, testMode);
-        ClawArmServo.setPower(-1);
-        Functions.frontArmMove(opMode, hardwareMap, telemetry, -12, 0.25, "Back", testMode);
+        //Functions.frontArmMove(opMode, hardwareMap, telemetry, 15, 0.2, "Front", testMode);
         Functions.pause(2, opMode);
-        Functions.frontArmStop(opMode, hardwareMap, telemetry, testMode);
+        Functions.drive(opMode, hardwareMap, telemetry, -5.4, -5.4, 0.15, -5.4, -5.4, testMode);
+        //Functions.frontArmStop(opMode, hardwareMap, telemetry, testMode);
+        ClawArmServo.setPower(-1);
+        Functions.pause(0.25, opMode);
+
+        //Functions.frontArmStop(opMode, hardwareMap, telemetry, testMode);
+        //Functions.frontArmMove(opMode, hardwareMap, telemetry, -12, 0.25, "Back", testMode);
+        Functions.pause(2, opMode);
+        //Functions.frontArmStop(opMode, hardwareMap, telemetry, testMode);
         Functions.reset(opMode, hardwareMap, telemetry, testMode);
         return;
     }
@@ -633,17 +678,18 @@ public class Functions {
         Functions.driveUntilDistance(opMode, hardwareMap, telemetry, 10.8, 47, Speed, testMode);
         Functions.pause(0.25, opMode);
 
-        Functions.frontArmMove(opMode, hardwareMap, telemetry, 12, 0.2, "Front", testMode);
-        Functions.pause(1.25, opMode);
-        Functions.drive(opMode, hardwareMap, telemetry, -7.4, -7.4, Speed, -7.4, -7.4, testMode);
-        Functions.frontArmStop(opMode, hardwareMap, telemetry, testMode);
+        //Functions.frontArmMove(opMode, hardwareMap, telemetry, 7, 0.1, "Front", testMode);
+        Functions.pause(2, opMode);
+        ClawArmServo.setPower(-1);
+        Functions.drive(opMode, hardwareMap, telemetry, -7.4, -7.4, 0.15, -7.4, -7.4, testMode);
+        //Functions.frontArmStop(opMode, hardwareMap, telemetry, testMode);
         Functions.pause(0.25, opMode);
 
-        Functions.frontArmStop(opMode, hardwareMap, telemetry, testMode);
+        //Functions.frontArmStop(opMode, hardwareMap, telemetry, testMode);
         ClawArmServo.setPower(-1);
-        Functions.frontArmMove(opMode, hardwareMap, telemetry, -12, 0.25, "Back", testMode);
+        //Functions.frontArmMove(opMode, hardwareMap, telemetry, -15, 0.25, "Back", testMode);
         Functions.pause(2, opMode);
-        Functions.frontArmStop(opMode, hardwareMap, telemetry, testMode);
+        //Functions.frontArmStop(opMode, hardwareMap, telemetry, testMode);
         Functions.reset(opMode, hardwareMap, telemetry, testMode);
         return;
     }
@@ -852,7 +898,7 @@ public class Functions {
 
             telemetry.addData("Currently going: ", "to");
             telemetry.update();
-        }
+        }   ````````````````````````````````````````````````````````````````````````````````````````````````
 /*
         public static void slideUp(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, com.qualcomm.robotcore.hardware.ServoController ControlHub_ServoController, com.qualcomm.robotcore.hardware.ServoController ExpansionHub2_ServoController) {
 /*

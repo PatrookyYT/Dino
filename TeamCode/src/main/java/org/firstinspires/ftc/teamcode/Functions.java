@@ -46,15 +46,20 @@ public class Functions {
         DcMotor FrontLeft;
         DcMotor FrontRight;
 
+        boolean BLPassed = false;
+        boolean FLPassed = false;
+        boolean BRPassed = false;
+        boolean FRPassed = false;
+
         BackLeft = hardwareMap.get(DcMotor.class, "BackLeft");
         BackRight = hardwareMap.get(DcMotor.class, "BackRight");
         FrontLeft = hardwareMap.get(DcMotor.class, "FrontLeft");
         FrontRight = hardwareMap.get(DcMotor.class, "FrontRight");
 
-        BackLeft.setDirection(DcMotor.Direction.REVERSE);
-        BackRight.setDirection(DcMotor.Direction.FORWARD);
-        FrontLeft.setDirection(DcMotor.Direction.REVERSE);
-        FrontRight.setDirection(DcMotor.Direction.FORWARD);
+        BackLeft.setDirection(DcMotor.Direction.FORWARD);
+        BackRight.setDirection(DcMotor.Direction.REVERSE);
+        FrontLeft.setDirection(DcMotor.Direction.FORWARD);
+        FrontRight.setDirection(DcMotor.Direction.REVERSE);
 
         BackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -82,13 +87,31 @@ public class Functions {
         WHEELS[2] = FrontLeft;
         WHEELS[3] = FrontRight;
 
-        while (opMode.opModeIsActive() && BackLeft.isBusy() && BackRight.isBusy() && FrontLeft.isBusy() && FrontRight.isBusy()) {
+        while (opMode.opModeIsActive() && BackLeft.isBusy() && BackRight.isBusy() && FrontLeft.isBusy() && FrontRight.isBusy() && !(BRPassed && FRPassed && BLPassed && FLPassed)) {
+            if(-(BackLeft_target * unitsPerInch) <= BackLeft.getCurrentPosition() || BackLeft.getCurrentPosition() <= (BackLeft_target * unitsPerInch)){
+                BLPassed = true;
+            }
+            if(-(FrontLeft_target * unitsPerInch) <= FrontLeft.getCurrentPosition() || FrontLeft.getCurrentPosition() <= (FrontLeft_target * unitsPerInch)){
+                FLPassed = true;
+            }
+            if(-(BackRight_target * unitsPerInch) <= BackRight.getCurrentPosition() || BackRight.getCurrentPosition() <= (BackRight_target * unitsPerInch)){
+                BRPassed = true;
+            }
+            if(-(FrontRight_target * unitsPerInch) <= FrontRight.getCurrentPosition() || FrontRight.getCurrentPosition() <= (FrontRight_target * unitsPerInch)){
+                FRPassed = true;
+            }
+
+
             if (testMode)
             {
                 telemetry.addData("bk-left-end", BackLeft.getCurrentPosition() + "," + BackLeft.getPower());
                 telemetry.addData("bk-right-end", BackRight.getCurrentPosition() + "," + BackRight.getPower());
                 telemetry.addData("fwd-left-end", FrontLeft.getCurrentPosition() + "," + FrontLeft.getPower());
                 telemetry.addData("fwd-right-end", FrontRight.getCurrentPosition() + "," + FrontRight.getPower());
+                telemetry.addData("Speed", BackLeft_target);
+                telemetry.addData("Avg", BackLeft.getCurrentPosition());
+                telemetry.addData("Target", BackLeft_target);
+                telemetry.addData("%", (Math.abs(BackLeft.getCurrentPosition()) / Math.abs(BackLeft_target * unitsPerInch)));
                 telemetry.addData("bk-left-endBusy", BackLeft.isBusy());
                 telemetry.addData("bk-right-endBusy", BackRight.isBusy());
                 telemetry.addData("fwd-left-endBusy", FrontLeft.isBusy());
@@ -98,11 +121,26 @@ public class Functions {
 
             if(!opMode.opModeIsActive())
             {
+                BackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                BackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                FrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                FrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+                BackLeft.setPower(0);
+                BackRight.setPower(0);
+                FrontLeft.setPower(0);
+                FrontRight.setPower(0);
+
                 return;
             }
 
             opMode.idle();
         }
+
+        BackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        BackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        FrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        FrontRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
         BackLeft.setPower(0);
         BackRight.setPower(0);
@@ -110,7 +148,7 @@ public class Functions {
         FrontRight.setPower(0);
 
     }
-
+/*
     public static void driveDirect(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, double wheel_target, double target_Speed, boolean testMode) {
         if(!opMode.opModeIsActive())
         {
@@ -132,10 +170,10 @@ public class Functions {
         FrontLeft = hardwareMap.get(DcMotor.class, "FrontLeft");
         FrontRight = hardwareMap.get(DcMotor.class, "FrontRight");
 
-        BackLeft.setDirection(DcMotor.Direction.REVERSE);
-        BackRight.setDirection(DcMotor.Direction.FORWARD);
-        FrontLeft.setDirection(DcMotor.Direction.REVERSE);
-        FrontRight.setDirection(DcMotor.Direction.FORWARD);
+        BackLeft.setDirection(DcMotor.Direction.FORWARD);
+        BackRight.setDirection(DcMotor.Direction.REVERSE);
+        FrontLeft.setDirection(DcMotor.Direction.FORWARD);
+        FrontRight.setDirection(DcMotor.Direction.REVERSE);
 
         BackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -254,6 +292,7 @@ public class Functions {
         FrontRight.setPower(0);
     }
 
+    /*
     public static void viperSlideMove(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, double Arm_target, double Speed, boolean testMode) {
         if(!opMode.opModeIsActive())
         {
@@ -319,8 +358,9 @@ public class Functions {
         ViperSlideMotorRight.setPower(0);
         return;
     }
+     */
 
-/*
+
     public static void frontArmMove(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, double Arm_target, double Speed, String endPosition, boolean testMode) {
         if(!opMode.opModeIsActive())
         {
@@ -347,7 +387,7 @@ public class Functions {
         FrontArmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         FrontArmMotor.setPower(Speed);
-/*
+
         while (opMode.opModeIsActive() && FrontArmMotor.isBusy()) {
             if (testMode)
             {
@@ -367,7 +407,7 @@ public class Functions {
 
             opMode.idle();
         }
-/*
+
             if(endPosition == "Front"){
                 FrontArmMotor.setPower(0.05);
             } else if(endPosition == "Back") {
@@ -408,8 +448,8 @@ public class Functions {
         FrontArmMotor.setPower(0);
         return;
     }
-*/
 
+/*
     public static void frontArmMove(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, double Arm_target, boolean testMode) {
         if (!opMode.opModeIsActive()) {
             return;
@@ -429,7 +469,7 @@ public class Functions {
 
         LeftServo.setPower(Arm_target);
         RightServo.setPower(-Arm_target);
-    }
+    }*/
 
 
     public static void turn(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, String direction, double Speed, boolean testMode) {
@@ -448,10 +488,10 @@ public class Functions {
         FrontRight = hardwareMap.get(DcMotor.class, "FrontRight");
         BackRight = hardwareMap.get(DcMotor.class, "BackRight");
 
-        FrontLeft.setDirection(DcMotor.Direction.REVERSE);
-        FrontRight.setDirection(DcMotor.Direction.FORWARD);
-        BackLeft.setDirection(DcMotor.Direction.REVERSE);
-        BackRight.setDirection(DcMotor.Direction.FORWARD);
+        BackLeft.setDirection(DcMotor.Direction.FORWARD);
+        BackRight.setDirection(DcMotor.Direction.REVERSE);
+        FrontLeft.setDirection(DcMotor.Direction.FORWARD);
+        FrontRight.setDirection(DcMotor.Direction.REVERSE);
 
         BackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         FrontLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -523,8 +563,7 @@ public class Functions {
         final double unitsPerInch = 60;
 
         final double tolerance = 1.5;
-
-        //double distanceLeft = Distance.GetDistanceLeft(opMode, hardwareMap, telemetry);
+        double distanceLeft = Distance.GetDistanceLeft(opMode, hardwareMap, telemetry);
         double distanceCenter = maxDistance;
 
         DcMotor BackLeft;
@@ -537,10 +576,10 @@ public class Functions {
         FrontLeft = hardwareMap.get(DcMotor.class, "FrontLeft");
         FrontRight = hardwareMap.get(DcMotor.class, "FrontRight");
 
-        BackLeft.setDirection(DcMotor.Direction.REVERSE);
-        BackRight.setDirection(DcMotor.Direction.FORWARD);
-        FrontLeft.setDirection(DcMotor.Direction.REVERSE);
-        FrontRight.setDirection(DcMotor.Direction.FORWARD);
+        BackLeft.setDirection(DcMotor.Direction.FORWARD);
+        BackRight.setDirection(DcMotor.Direction.REVERSE);
+        FrontLeft.setDirection(DcMotor.Direction.FORWARD);
+        FrontRight.setDirection(DcMotor.Direction.REVERSE);
 
         BackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -739,10 +778,10 @@ public class Functions {
         FrontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         FrontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        BackLeft.setDirection(DcMotor.Direction.REVERSE);
+        BackLeft.setDirection(DcMotor.Direction.FORWARD);
         BackRight.setDirection(DcMotor.Direction.REVERSE);
         FrontLeft.setDirection(DcMotor.Direction.FORWARD);
-        FrontRight.setDirection(DcMotor.Direction.FORWARD);
+        FrontRight.setDirection(DcMotor.Direction.REVERSE);
     }
 
     /*
@@ -773,10 +812,10 @@ public class Functions {
         FrontLeft = hardwareMap.get(DcMotor.class, "FrontLeft");
         FrontRight = hardwareMap.get(DcMotor.class, "FrontRight");
 
-        BackLeft.setDirection(DcMotor.Direction.REVERSE);
-        BackRight.setDirection(DcMotor.Direction.FORWARD);
-        FrontLeft.setDirection(DcMotor.Direction.REVERSE);
-        FrontRight.setDirection(DcMotor.Direction.FORWARD);
+        BackLeft.setDirection(DcMotor.Direction.FORWARD);
+        BackRight.setDirection(DcMotor.Direction.REVERSE);
+        FrontLeft.setDirection(DcMotor.Direction.FORWARD);
+        FrontRight.setDirection(DcMotor.Direction.REVERSE);
 
         BackLeft.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BackRight.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

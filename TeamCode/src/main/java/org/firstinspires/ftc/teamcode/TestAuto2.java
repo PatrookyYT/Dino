@@ -68,8 +68,8 @@
             boolean Start = false;
             boolean DriveTest = false;
             boolean distanceTestR = false;
-            boolean getDistanceTest = true;
-            boolean clawTest = false;
+            boolean getDistanceTest = false;
+            boolean clawTest = true;
             boolean armTest = false;
             boolean testMode = true;
             boolean turnTest = false;
@@ -104,14 +104,14 @@
             if(DriveTest == true) {
                 // 16in = 1000
 
-                Functions.driveDirect(this, hardwareMap, telemetry, 80, 0.65, testMode);
-                Functions.pause(2, this);
-                Functions.driveDirect(this, hardwareMap, telemetry, -80, 0.65, testMode);
-                Functions.pause(2, this);
+                //Functions.driveDirect(this, hardwareMap, telemetry, 80, 0.65, testMode);
+                //Functions.pause(2, this);
+                //Functions.driveDirect(this, hardwareMap, telemetry, -80, 0.65, testMode);
+                //Functions.pause(2, this);
 
-                Functions.drive(this, hardwareMap, telemetry, 80, 80, 0.65, 80, 80, testMode);
+                Functions.drive(this, hardwareMap, telemetry, 30, 30, 0.01, 30, 30, testMode);
                 Functions.pause(2, this);
-                Functions.drive(this, hardwareMap, telemetry, -80, -80, 0.65, -80, -80, testMode);
+                Functions.drive(this, hardwareMap, telemetry, -30, -30, 0.01, -30, -30, testMode);
                 Functions.pause(2, this);
 
             }
@@ -132,8 +132,8 @@
 
             if(viperSlideTest)
             {
-                Functions.viperSlideMove(this, hardwareMap, telemetry, 165, 0.65, testMode);
-                Functions.viperSlideMove(this, hardwareMap, telemetry, -165, 0.65, testMode);
+                //Functions.viperSlideMove(this, hardwareMap, telemetry, 165, 0.65, testMode);
+                //Functions.viperSlideMove(this, hardwareMap, telemetry, -165, 0.65, testMode);
             }
 
             if (distanceTestR) {
@@ -145,7 +145,7 @@
             if(clawTest) {
                 ClawArmServo.setPower(1);
                 Functions.pause(2, this);
-                ClawArmServo.setPower(0);
+                ClawArmServo.setPower(-1);
                 Functions.pause(2, this);
             }
 

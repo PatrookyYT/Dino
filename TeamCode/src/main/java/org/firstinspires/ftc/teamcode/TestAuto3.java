@@ -95,9 +95,9 @@ public class TestAuto3 extends LinearOpMode {
         if(DriveTest == true) {
             // 16in = 1000
 
-            Functions.driveDirect(this, hardwareMap, telemetry, 80, 0.65, testMode);
+            //Functions.driveDirect(this, hardwareMap, telemetry, 80, 0.65, testMode);
             Functions.pause(2, this);
-            Functions.driveDirect(this, hardwareMap, telemetry, -80, 0.65, testMode);
+            //Functions.driveDirect(this, hardwareMap, telemetry, -80, 0.65, testMode);
             Functions.pause(2, this);
 
             Functions.drive(this, hardwareMap, telemetry, 80, 80, 0.65, 80, 80, testMode);
@@ -121,11 +121,6 @@ public class TestAuto3 extends LinearOpMode {
 
         }
 
-        if(viperSlideTest)
-        {
-            Functions.viperSlideMove(this, hardwareMap, telemetry, 165, 0.65, testMode);
-            Functions.viperSlideMove(this, hardwareMap, telemetry, -165, 0.65, testMode);
-        }
 
         if (distanceTest) {
             //Functions.driveUntilDistanceKiro(this, hardwareMap, telemetry, 0.6, 0.05, testMode);

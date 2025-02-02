@@ -8,13 +8,14 @@
     @Autonomous(name = "IntoTheDeepAuto4Sub")
     public class IntoTheDeepAuto4 extends LinearOpMode {
         // Declare OpMode members.
+
         private ElapsedTime runtime = new ElapsedTime();
         public ServoController ControlHub_ServoController;
 
 
         @Override
         public void runOpMode() {
-
+/*
             boolean Running = true;
             boolean testMode = true; // Shows Telemetry data for Functions.drive and Functions.turn
     
@@ -115,5 +116,8 @@
         private String formatSeconds(double inputSeconds){
             double fixedValue = Math.floor(inputSeconds * 10) / 10;
             return String.valueOf(fixedValue);
+            */
         }
+
+
     }

@@ -86,10 +86,10 @@ public class TeleOpFTCBasic extends LinearOpMode {
         waitForStart();
         if (opModeIsActive()) {
 
-            BackLeft.setDirection(DcMotor.Direction.FORWARD);
-            BackRight.setDirection(DcMotor.Direction.FORWARD);
-            FrontLeft.setDirection(DcMotor.Direction.REVERSE);
-            FrontRight.setDirection(DcMotor.Direction.REVERSE);
+            BackLeft.setDirection(DcMotor.Direction.REVERSE);
+            BackRight.setDirection(DcMotor.Direction.REVERSE);
+            FrontLeft.setDirection(DcMotor.Direction.FORWARD);
+            FrontRight.setDirection(DcMotor.Direction.FORWARD);
             FrontArmMotor.setDirection(DcMotor.Direction.FORWARD);
 
             BackLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -159,7 +159,7 @@ public class TeleOpFTCBasic extends LinearOpMode {
                     FrontArmMotor.setPower(verticalGp2_right * 0.45);
                 }
 
-                if (gamepad1.dpad_right) {
+                if (gamepad1.dpad_left) {
                     // Turns the robot left (Hopefully)
                     BackLeft.setPower(-D_Speed);
                     BackRight.setPower(-D_Speed);
@@ -177,7 +177,7 @@ public class TeleOpFTCBasic extends LinearOpMode {
                     BackRight.setPower(D_Speed);
                     FrontLeft.setPower(D_Speed);
                     FrontRight.setPower(-D_Speed);
-                } else if (gamepad1.dpad_left) {
+                } else if (gamepad1.dpad_right) {
                     // Turns the robot right (Hopefully)
                     BackLeft.setPower(D_Speed);
                     BackRight.setPower(D_Speed);

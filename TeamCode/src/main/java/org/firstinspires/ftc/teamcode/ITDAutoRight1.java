@@ -57,51 +57,51 @@ public class ITDAutoRight1 extends LinearOpMode {
 
             ClawArmServo.setPower(1);
 
-            Functions.drive(this, hardwareMap, telemetry, 10, -10, 0.3, -10, 10, testMode);
+            Functions.drive(this, hardwareMap, telemetry, 10, -10, 0.5, -10, 10, testMode);
 
 
-            Functions.turn(this, hardwareMap, telemetry, "Left", 0.4, testMode);
+            Functions.turn(this, hardwareMap, telemetry, "Left", 0.5, testMode);
             Functions.pause(0.25, this);
 
 //10.78
-            Functions.hangSpec1(this, hardwareMap, telemetry, 0.2, testMode);
+            Functions.hangSpec1(this, hardwareMap, telemetry, 0.35, testMode);
 
 
-            //Functions.frontArmStop(this, hardwareMap, telemetry, testMode);
+            Functions.frontArmStop(this, hardwareMap, telemetry, testMode);
             ClawArmServo.setPower(-1);
-            Functions.turn(this, hardwareMap, telemetry, "Right", 0.4, testMode);
+            Functions.turn(this, hardwareMap, telemetry, "Right", 0.5, testMode);
             Functions.pause(1, this);
 
             //Functions.frontArmMove(this, hardwareMap, telemetry, 24, 0.25, "Front", testMode);
-            Functions.drive(this, hardwareMap, telemetry, -21.5, 21.5, 0.3, 21.5, -21.5, testMode);
+            Functions.drive(this, hardwareMap, telemetry, -21.5, 21.5, 0.5, 21.5, -21.5, testMode);
             Functions.pause(0.25, this);
 
             Functions.drive(this, hardwareMap, telemetry, 1.5, -1.5, 0.5, -1.5, 1.5, testMode);
             Functions.pause(0.25, this);
-            //Functions.frontArmStop(this, hardwareMap, telemetry, testMode);
+            Functions.frontArmStop(this, hardwareMap, telemetry, testMode);
 
 
-            Functions.drive(this, hardwareMap, telemetry, 20.2, 20.2, 0.35, 20.2, 20.2, testMode);
+            Functions.drive(this, hardwareMap, telemetry, 20.2, 20.2, 0.5, 20.2, 20.2, testMode);
 
             //Functions.driveUntilDistance(this, hardwareMap, telemetry, 10.3, 25, 0.35, testMode);
             //Functions.driveUntilDistance(this, hardwareMap, telemetry, 10.4, 25, 0.35, testMode);
 
-            //Functions.frontArmStop(this, hardwareMap, telemetry, testMode);
-            //Functions.frontArmMove(this, hardwareMap, telemetry, 19, 0.2, "Front", testMode);
+            Functions.frontArmStop(this, hardwareMap, telemetry, testMode);
+            Functions.frontArmMove(this, hardwareMap, telemetry, 19, 0.2, "Front", testMode);
             Functions.pause(0.5, this);
 
-            //Functions.frontArmStop(this, hardwareMap, telemetry, testMode);
+            Functions.frontArmStop(this, hardwareMap, telemetry, testMode);
             ClawArmServo.setPower(1);
             Functions.pause(1.5, this);
-            //Functions.frontArmStop(this, hardwareMap, telemetry, testMode);
+            Functions.frontArmStop(this, hardwareMap, telemetry, testMode);
             Functions.pause(0.1, this);
 
-            //Functions.frontArmMove(this, hardwareMap, telemetry, -25, 0.08, "Front", testMode);
+            Functions.frontArmMove(this, hardwareMap, telemetry, -25, 0.08, "Front", testMode);
             Functions.drive(this, hardwareMap, telemetry, -30, -30, 0.45, -30, -30, testMode);
             Functions.pause(0.25, this);
 
             Functions.turn(this, hardwareMap, telemetry, "Left", 0.4, testMode);
-            //Functions.frontArmStop(this, hardwareMap, telemetry, testMode);
+            Functions.frontArmStop(this, hardwareMap, telemetry, testMode);
 
             Functions.pause(0.25, this);
 

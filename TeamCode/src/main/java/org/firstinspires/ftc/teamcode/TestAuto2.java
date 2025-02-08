@@ -69,8 +69,8 @@
             boolean DriveTest = false;
             boolean distanceTestR = false;
             boolean getDistanceTest = false;
-            boolean clawTest = true;
-            boolean armTest = false;
+            boolean clawTest = false;
+            boolean armTest = true;
             boolean testMode = true;
             boolean turnTest = false;
             boolean viperSlideTest = false;
@@ -109,9 +109,9 @@
                 //Functions.driveDirect(this, hardwareMap, telemetry, -80, 0.65, testMode);
                 //Functions.pause(2, this);
 
-                Functions.drive(this, hardwareMap, telemetry, 30, 30, 0.01, 30, 30, testMode);
+                Functions.drive(this, hardwareMap, telemetry, 30, 30, 0.65, 30, 30, testMode);
                 Functions.pause(2, this);
-                Functions.drive(this, hardwareMap, telemetry, -30, -30, 0.01, -30, -30, testMode);
+                Functions.drive(this, hardwareMap, telemetry, -30, -30, 0.65, -30, -30, testMode);
                 Functions.pause(2, this);
 
             }
@@ -150,14 +150,14 @@
             }
 
             if(armTest) {
-                //Functions.frontArmMove(this, hardwareMap, telemetry, 14, 0.25, "Front", testMode);
+                Functions.frontArmMove(this, hardwareMap, telemetry, 14, 0.25, "Front", testMode);
                 Functions.pause(1.5, this);
-                //Functions.frontArmStop(this, hardwareMap, telemetry, testMode);
+                Functions.frontArmStop(this, hardwareMap, telemetry, testMode);
                 Functions.pause(1.5, this);
 
-                //Functions.frontArmMove(this, hardwareMap, telemetry, -14, 0.25, "Front", testMode);
+                Functions.frontArmMove(this, hardwareMap, telemetry, -14, 0.25, "Front", testMode);
                 Functions.pause(1.5, this);
-                //Functions.frontArmStop(this, hardwareMap, telemetry, testMode);
+                Functions.frontArmStop(this, hardwareMap, telemetry, testMode);
                 Functions.pause(1.5, this);
             }
 

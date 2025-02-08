@@ -347,7 +347,7 @@ public class Functions {
      */
 
 
-    public static void frontArmMove(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, double Arm_target, double Speed, String endPosition, boolean testMode) {
+    public static void frontArmMove(com.qualcomm.robotcore.eventloop.opmode.LinearOpMode opMode, com.qualcomm.robotcore.hardware.HardwareMap hardwareMap, org.firstinspires.ftc.robotcore.external.Telemetry telemetry, double Arm_target, double Speed, double time, boolean testMode) {
         if(!opMode.opModeIsActive())
         {
             return;
@@ -362,19 +362,21 @@ public class Functions {
 
         FrontArmMotor = hardwareMap.get(DcMotor.class, "FrontArmMotor");
 
-        FrontArmMotor.setDirection(DcMotor.Direction.REVERSE);
+        FrontArmMotor.setDirection(DcMotor.Direction.FORWARD);
 
         FrontArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         FrontArmMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-        FrontArmMotor.setTargetPosition((int)(Arm_target));
+        FrontArmMotor.setTargetPosition((int)(Arm_target * unitsPerInch));
 
         FrontArmMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         FrontArmMotor.setPower(Speed);
 
-        while (opMode.opModeIsActive() && FrontArmMotor.isBusy()) {
+        ElapsedTime elapsedTime = new ElapsedTime();
+
+        while (opMode.opModeIsActive() && FrontArmMotor.isBusy() && elapsedTime.seconds() < time) {
             if (testMode)
             {
                 telemetry.addData("ArmMotor", FrontArmMotor.getCurrentPosition() + "," + FrontArmMotor.getPower());
@@ -394,15 +396,7 @@ public class Functions {
             opMode.idle();
         }
 
-            if(endPosition == "Front"){
-                FrontArmMotor.setPower(0.05);
-            } else if(endPosition == "Back") {
-                FrontArmMotor.setPower(-0.05);
-            } else {
-                FrontArmMotor.setPower(0);
-            }
-
-        FrontArmMotor.setPower(0);
+        //FrontArmMotor.setPower(0);
         return;
     }
 
@@ -421,7 +415,7 @@ public class Functions {
 
         FrontArmMotor = hardwareMap.get(DcMotor.class, "FrontArmMotor");
 
-        FrontArmMotor.setDirection(DcMotor.Direction.REVERSE);
+        FrontArmMotor.setDirection(DcMotor.Direction.FORWARD);
 
         FrontArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
@@ -664,20 +658,19 @@ public class Functions {
         ClawArmServo.setPower(1);
 
 //10.78
-        Functions.driveUntilDistance(opMode, hardwareMap, telemetry, 11.1, 47, Speed, testMode);
-        Functions.pause(0.25, opMode);
+        Functions.drive(opMode, hardwareMap, telemetry, 13.5, 13.5, Speed, 13.5, 13.5, testMode);
 
-        //Functions.frontArmMove(opMode, hardwareMap, telemetry, 15, 0.2, "Front", testMode);
-        Functions.pause(2, opMode);
-        Functions.drive(opMode, hardwareMap, telemetry, -5.4, -5.4, 0.15, -5.4, -5.4, testMode);
-        //Functions.frontArmStop(opMode, hardwareMap, telemetry, testMode);
+        //Functions.driveUntilDistance(opMode, hardwareMap, telemetry, 11.1, 47, Speed, testMode);
+
+        Functions.frontArmMove(opMode, hardwareMap, telemetry, 16, 0.65, 1.25, testMode);
+        Functions.drive(opMode, hardwareMap, telemetry, -4.5, -4.5, 0.135, -4.5, -4.5, testMode);
+        Functions.frontArmMove(opMode, hardwareMap, telemetry, 16, 0.65, 0.25, testMode);
         ClawArmServo.setPower(-1);
         Functions.pause(0.25, opMode);
+        Functions.frontArmStop(opMode, hardwareMap, telemetry, testMode);
 
-        //Functions.frontArmStop(opMode, hardwareMap, telemetry, testMode);
-        //Functions.frontArmMove(opMode, hardwareMap, telemetry, -12, 0.25, "Back", testMode);
-        Functions.pause(2, opMode);
-        //Functions.frontArmStop(opMode, hardwareMap, telemetry, testMode);
+        Functions.frontArmMove(opMode, hardwareMap, telemetry, -12, 0.3, 1.2, testMode);
+        Functions.frontArmStop(opMode, hardwareMap, telemetry, testMode);
         Functions.reset(opMode, hardwareMap, telemetry, testMode);
         return;
     }
@@ -703,18 +696,18 @@ public class Functions {
         Functions.driveUntilDistance(opMode, hardwareMap, telemetry, 10.8, 47, Speed, testMode);
         Functions.pause(0.25, opMode);
 
-        //Functions.frontArmMove(opMode, hardwareMap, telemetry, 7, 0.1, "Front", testMode);
+        Functions.frontArmMove(opMode, hardwareMap, telemetry, 7, 0.1, 1, testMode);
         Functions.pause(2, opMode);
         ClawArmServo.setPower(-1);
         Functions.drive(opMode, hardwareMap, telemetry, -7.4, -7.4, 0.15, -7.4, -7.4, testMode);
-        //Functions.frontArmStop(opMode, hardwareMap, telemetry, testMode);
+        Functions.frontArmStop(opMode, hardwareMap, telemetry, testMode);
         Functions.pause(0.25, opMode);
 
-        //Functions.frontArmStop(opMode, hardwareMap, telemetry, testMode);
+        Functions.frontArmStop(opMode, hardwareMap, telemetry, testMode);
         ClawArmServo.setPower(-1);
-        //Functions.frontArmMove(opMode, hardwareMap, telemetry, -15, 0.25, "Back", testMode);
+        Functions.frontArmMove(opMode, hardwareMap, telemetry, -15, 0.25, 1, testMode);
         Functions.pause(2, opMode);
-        //Functions.frontArmStop(opMode, hardwareMap, telemetry, testMode);
+        Functions.frontArmStop(opMode, hardwareMap, telemetry, testMode);
         Functions.reset(opMode, hardwareMap, telemetry, testMode);
         return;
     }

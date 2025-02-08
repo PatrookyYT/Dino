@@ -25,6 +25,13 @@ public class ITDAutoRight1 extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
+        waitForStart();
+        runtime.reset();
+
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////// Driving starts here//////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         //***VERY IMPORTANT**
         //Replace the device name (ex frontLeft) with the NAME OF THE
         //MOTORS DEFINED IN THE DRIVER HUB
@@ -40,13 +47,6 @@ public class ITDAutoRight1 extends LinearOpMode {
         //Disable pwm
         ControlHub_ServoController.pwmDisable();
 
-        waitForStart();
-        runtime.reset();
-
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-        //////////////////////////////////////////// Driving starts here//////////////////////////////////////////////
-        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
         // 10in = 572
 
         Running = opModeIsActive();
@@ -57,32 +57,56 @@ public class ITDAutoRight1 extends LinearOpMode {
 
             ClawArmServo.setPower(1);
 
-            Functions.drive(this, hardwareMap, telemetry, 10, -10, 0.5, -10, 10, testMode);
+            Functions.drive(this, hardwareMap, telemetry, 10, -10, 0.55, -10, 10, testMode);
 
 
-            Functions.turn(this, hardwareMap, telemetry, "Left", 0.5, testMode);
+            Functions.turn(this, hardwareMap, telemetry, "Left", 0.75, testMode);
             Functions.pause(0.25, this);
 
 //10.78
-            Functions.hangSpec1(this, hardwareMap, telemetry, 0.35, testMode);
+            Functions.hangSpec1(this, hardwareMap, telemetry, 0.45, testMode);
 
 
             Functions.frontArmStop(this, hardwareMap, telemetry, testMode);
             ClawArmServo.setPower(-1);
-            Functions.turn(this, hardwareMap, telemetry, "Right", 0.5, testMode);
-            Functions.pause(1, this);
-
-            //Functions.frontArmMove(this, hardwareMap, telemetry, 24, 0.25, "Front", testMode);
-            Functions.drive(this, hardwareMap, telemetry, -21.5, 21.5, 0.5, 21.5, -21.5, testMode);
-            Functions.pause(0.25, this);
-
-            Functions.drive(this, hardwareMap, telemetry, 1.5, -1.5, 0.5, -1.5, 1.5, testMode);
-            Functions.pause(0.25, this);
+            Functions.turn(this, hardwareMap, telemetry, "Right", 0.75, testMode);
             Functions.frontArmStop(this, hardwareMap, telemetry, testMode);
 
+            Functions.drive(this, hardwareMap, telemetry, -24.5, 24.5, 0.6, 24.5, -24.5, testMode);
+            Functions.pause(0.25, this);
 
-            Functions.drive(this, hardwareMap, telemetry, 20.2, 20.2, 0.5, 20.2, 20.2, testMode);
+            Functions.drive(this, hardwareMap, telemetry, 10, -10, 0.6, -10, 10, testMode);
+            Functions.frontArmStop(this, hardwareMap, telemetry, testMode);
 
+            Functions.drive(this, hardwareMap, telemetry, 29.1, 29.1, 0.7, 29.1, 29.1, testMode);
+            Functions.turn(this, hardwareMap, telemetry, "Right", 0.75, testMode);
+            Functions.pause(0.25, this);
+
+            Functions.drive(this, hardwareMap, telemetry, -39, -39, 0.6, -39, -39, testMode);
+            Functions.pause(0.25, this);
+
+            Functions.drive(this, hardwareMap, telemetry, 10, -10, 0.57, -10, 10, testMode);
+            Functions.pause(0.25, this);
+            Functions.drive(this, hardwareMap, telemetry, 46.5, 46.5, 0.75, 46.5, 46.5, testMode);
+            Functions.pause(0.25, this);
+            Functions.drive(this, hardwareMap, telemetry, -46.5, -46.5, 0.75, -46.5, -46.5, testMode);
+            Functions.pause(0.25, this);
+
+            Functions.drive(this, hardwareMap, telemetry, 16, -16, 0.57, -16, 16, testMode);
+            Functions.pause(0.25, this);
+            Functions.drive(this, hardwareMap, telemetry, 48.5, 48.5, 0.75, 48.5, 48.5, testMode);
+            Functions.pause(0.25, this);
+            Functions.drive(this, hardwareMap, telemetry, -48.5, -48.5, 0.75, -48.5, -48.5, testMode);
+            Functions.pause(0.25, this);
+
+            Functions.drive(this, hardwareMap, telemetry, 10, -10, 0.57, -10, 10, testMode);
+            Functions.pause(0.25, this);
+            Functions.drive(this, hardwareMap, telemetry, 48.5, 48.5, 0.75, 48.5, 48.5, testMode);
+            Functions.pause(0.25, this);
+            Functions.drive(this, hardwareMap, telemetry, -48.5, -48.5, 0.75, -48.5, -48.5, testMode);
+            Functions.pause(0.25, this);
+
+            /*
             //Functions.driveUntilDistance(this, hardwareMap, telemetry, 10.3, 25, 0.35, testMode);
             //Functions.driveUntilDistance(this, hardwareMap, telemetry, 10.4, 25, 0.35, testMode);
 
@@ -106,6 +130,7 @@ public class ITDAutoRight1 extends LinearOpMode {
             Functions.pause(0.25, this);
 
             Functions.hangSpec1(this, hardwareMap, telemetry, 0.2, testMode);
+            */
         }
     }
 

@@ -68,10 +68,10 @@
             boolean Start = false;
             boolean DriveTest = false;
             boolean distanceTestR = false;
-            boolean getDistanceTest = false;
+            boolean getDistanceTest = true;
             boolean clawTest = false;
             boolean armTest = true;
-            boolean testMode = true;
+            boolean testMode = false;
             boolean turnTest = false;
             boolean viperSlideTest = false;
 
@@ -100,6 +100,7 @@
             //////////////////////////////////////////// Driving starts here//////////////////////////////////////////////
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+            ClawArmServo.setPower(1);
 
             if(DriveTest == true) {
                 // 16in = 1000
@@ -150,12 +151,12 @@
             }
 
             if(armTest) {
-                Functions.frontArmMove(this, hardwareMap, telemetry, 14, 0.25, "Front", testMode);
+                Functions.frontArmMove(this, hardwareMap, telemetry, 14, 0.35, 1, testMode);
                 Functions.pause(1.5, this);
                 Functions.frontArmStop(this, hardwareMap, telemetry, testMode);
                 Functions.pause(1.5, this);
 
-                Functions.frontArmMove(this, hardwareMap, telemetry, -14, 0.25, "Front", testMode);
+                Functions.frontArmMove(this, hardwareMap, telemetry, -14, 0.35, 1, testMode);
                 Functions.pause(1.5, this);
                 Functions.frontArmStop(this, hardwareMap, telemetry, testMode);
                 Functions.pause(1.5, this);

@@ -20,9 +20,6 @@ public class TeleOpFTCBasic extends LinearOpMode {
     //private CRServo LeftServo;
     //private CRServo RightServo;
 
-    //private DcMotor ViperSlideMotorLeft;
-    //private DcMotor ViperSlideMotorRight;
-
     private ServoController ControlHub_ServoController;
 
     /**
@@ -59,28 +56,12 @@ public class TeleOpFTCBasic extends LinearOpMode {
         //ViperSlideMotor = hardwareMap.get(DcMotor.class, "ViperSlideMotor");
         FrontArmMotor = hardwareMap.get(DcMotor.class, "FrontArmMotor");
 
-        //ViperSlideMotorLeft = hardwareMap.get(DcMotor.class, "ViperSlideMotorLeft");
-        //ViperSlideMotorRight = hardwareMap.get(DcMotor.class, "ViperSlideMotorRight");
-
-        //ViperSlideMotorLeft.setDirection(DcMotor.Direction.FORWARD);
-        //ViperSlideMotorRight.setDirection(DcMotor.Direction.REVERSE);
 
         ControlHub_ServoController = hardwareMap.get(ServoController.class, "Control Hub");
         ClawArmServo = hardwareMap.get(CRServo.class, "ClawArmServo");
-        //LeftServo = hardwareMap.get(CRServo.class, "LeftArmServo");
-        //RightServo = hardwareMap.get(CRServo.class, "RightArmServo");
 
         //Disable pwm
         ControlHub_ServoController.pwmDisable();
-
-        //DcMotor ViperSlideMotorLeft;
-        //DcMotor ViperSlideMotorRight;
-
-        //ViperSlideMotorLeft = hardwareMap.get(DcMotor.class, "ViperSlideMotorLeft");
-        //ViperSlideMotorRight = hardwareMap.get(DcMotor.class, "ViperSlideMotorRight");
-
-        //ViperSlideMotorLeft.setDirection(DcMotor.Direction.FORWARD);
-        //ViperSlideMotorRight.setDirection(DcMotor.Direction.REVERSE);
 
 
         waitForStart();
@@ -91,12 +72,14 @@ public class TeleOpFTCBasic extends LinearOpMode {
             FrontLeft.setDirection(DcMotor.Direction.FORWARD);
             FrontRight.setDirection(DcMotor.Direction.FORWARD);
             FrontArmMotor.setDirection(DcMotor.Direction.FORWARD);
+            //ViperSlideMotor.setDirection(DcMotor.Direction.FORWARD);
 
             BackLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             BackRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             FrontLeft.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             FrontRight.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
             FrontArmMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+            //ViperSlideMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
             FrontArmMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             while (opModeIsActive()) {
